@@ -1,0 +1,7 @@
+{% if is_paginated %}<ul class="pagination right">
+    {% if page_obj.has_previous %}<li class="arrow"><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>{% endif %}
+    {% for item in paginator.page_range %}
+    <li{% if item == page_obj.number %} class="current"{% endif %}><a href="?page={{ item }}">{{ item }}</a></li>
+    {% endfor %}
+    {% if page_obj.has_next %}<li class="arrow"><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>{% endif %}
+</ul>{% endif %}

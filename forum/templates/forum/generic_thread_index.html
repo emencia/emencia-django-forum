@@ -1,0 +1,21 @@
+    <ul class="list-group">
+        {% for thread in thread_list %}
+        <li class="{% cycle 'odd' 'even' %}{% if forloop.first %} first{% endif %}{% if forloop.last %} last{% endif %}{% if thread.sticky %} highlighted{% endif %}">
+            {% comment %}<td style="width:50%;" class="notice-box{% if thread.announce %} announce-notice{% else %}{% if thread.sticky %} sticky-notice{% else %}{% if thread.closed %} locked-notice{% endif %}{% endif %}{% endif %}">{% endcomment %}
+                <p class="right text-right">{% with num_posts=thread.num_posts|add:"-1" %}{{ num_posts }} answer{{ num_posts|pluralize }}{% endwith %}</p>
+                {% if category_instance %}
+                <h4><a href="{% url 'forum-thread-details' category_instance.slug thread.id %}">{{ thread.subject }}</a></h4>
+                {% else %}
+                <h4><a href="{% url 'forum-thread-details' thread.category.slug thread.id %}">{{ thread.subject }}</a></h4>
+                <p class="subline">Catégorie : <a href="{% url 'forum-category-details' thread.category.slug %}">{{ thread.category }}</a></p>
+                {% endif %}
+                <p>Since {{ thread.modified|timesince }} - Par <em>{{ thread.get_last_post.author }}</em></p>
+        </li>
+        {% empty %}
+        <li class="empty">
+            Aucun fil de discussion
+        </li>
+        {% endfor %}
+    </ul>
+    {% comment %}{% pagination_tag pagination_url_args %}{% endcomment %}
+    {% include 'forum/pagination.html' %}

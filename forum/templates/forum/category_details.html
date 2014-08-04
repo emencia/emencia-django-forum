@@ -1,0 +1,15 @@
+{% extends "forum/base.html" %}
+
+{% block forum_content %}
+    <hr>
+    
+    <dl class="sub-nav right">
+        <dd><a class="icon-thread-add" href="{% url 'forum-thread-create' category_instance.slug %}"><i class="icon-quill"></i> Nouveau fil de discussion</a></dd>
+        {% if perms.forum.change_category %}<dd><a class="icon-folder-edit" href="{% url 'forum-category-edit' category_instance.slug %}"><i class="icon-edit"></i> Modifier la catégorie</a></dd>{% endif %}
+    </dl>
+    <hr>
+    
+    {% with object_list as thread_list %}
+    {% include "forum/generic_thread_index.html" %}
+    {% endwith %}
+{% endblock %}

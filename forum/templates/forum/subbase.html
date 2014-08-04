@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% load autobreadcrumb %}
+{% block body_attr %} id="forum"{% endblock %}
+{% block head_title %}{% current_title_from_breadcrumbs %}{% endblock %}
+{% block menu_active_link_forum %} class="active"{% endblock %}

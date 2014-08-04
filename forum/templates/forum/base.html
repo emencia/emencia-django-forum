@@ -1,0 +1,12 @@
+{% extends "skeleton.html" %}
+{% load autobreadcrumb %}
+
+{% block menu_active_link_forum %} class="active"{% endblock %}
+
+{% block base_content %}<div class="row forum">
+    <div class="small-12 columns">
+        {% autobreadcrumbs_tag %}
+        <h2>{% current_title_from_breadcrumbs %}</h2>
+        {% block forum_content %}{% endblock %}
+    </div>
+</div>{% endblock %}

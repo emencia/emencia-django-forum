@@ -1,0 +1,57 @@
+{% extends "forum/base.html" %}
+{% load i18n crispy_forms_tags forum_markup %}
+
+{% block forum_content %}
+    <div class="actions-menu-ontop">
+        {% if perms.forum.change_thread %}<a class="icon-thread-edit" href="{% url 'forum-thread-edit' category_instance.slug thread_instance.id %}">Modifier ce fil</a>{% endif %}
+        {% if not user.watcher %}<a class="icon-eye-add" href="?{{ pagination_url_args }}watch">Suivre ce fil</a>{% else %}
+        <a class="icon-eye-delete" href="?{{ pagination_url_args }}unwatch">Ne plus suivre ce fil</a>{% endif %}
+    </div>
+    
+    <h3>Messages</h3>
+    <div class="flat_thread">
+        {% for post in object_list %}
+        <div id="forum_post_{{ post.id }}" class="item {% cycle 'odd' 'even' %}{% if forloop.first %} first{% endif %}{% if forloop.last %} last{% endif %}">
+            <div class="user tile_box tile_box_20">
+                <div class="inner">
+                    <h4>{{ post.author }}</h4>
+                    <p>{% comment %}{{ post.author }}{% endcomment %}</p>
+                </div>
+            </div>
+            <div class="content tile_box tile_box_80">
+                <div class="inner date">
+                    {% if perms.forum.change_post or perms.forum.delete_post %}<div class="actions">
+                        {% if perms.forum.change_post %}<a class="icon_inline icon-post-edit" href="{% url 'forum-post-edit' category_instance.slug thread_instance.id post.id %}">Modifier</a>{% endif %}
+                        {% if not forloop.first and perms.forum.delete_post %}<a class="icon_inline icon-post-delete delete_to_confirm" href="{% url 'forum-post-delete' category_instance.slug thread_instance.id post.id %}">Supprimer</a>{% endif %}
+                    </div>{% endif %}
+                    
+                    <p><a href="#forum_post_{{ post.id }}">#{{ forloop.counter }}</a> - {{ post.created|date:"d/m/Y à H:i" }}</p>
+                </div>
+                    <div class="cale"></div>
+                <div class="inner">
+                    <div class="wiki2xhtml text">
+                        {% text_transform post.text %}
+                        {% if post.attachment_file %}<div class="attachments">
+                            <h4>Fichier joint :</h4>
+                            <a class="icon_inline icon-link-go" href="{{ post.attachment_file.url }}">{{ post.attachment_title }}</a>
+                        </div>{% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="cale"></div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    {% comment %}{% pagination_tag %}{% endcomment %}
+    {% include 'forum/pagination.html' %}
+    
+    {% if form %}
+    <h3>Nouveau message</h3>
+    {% crispy form %}
+    {% else %}
+    <div class="notice-box locked-notice">
+        <p>Ce fil de discussion est fermé en écriture, vous ne pouvez y poster de nouveau message.</p>
+    </div>
+    {% endif %}
+{% endblock %}

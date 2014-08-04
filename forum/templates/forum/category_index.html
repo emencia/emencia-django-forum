@@ -1,0 +1,59 @@
+{% extends "forum/base.html" %}
+{% load forum_markup %}
+
+{% block forum_content %}
+    <hr>
+    
+    <dl class="sub-nav right">
+        <dd><a href="{% url 'forum-thread-recent' %}"><i class="icon-clock"></i> Fils récents</a></dd>
+        {% if user.is_staff %}<dd><a href="{% url 'forum-category-create' %}"><i class="icon-quill"></i> Nouvelle catégorie</a></dd>{% endif %}
+    </dl>
+    <hr>
+    
+    <div class="row categories-list">
+        {% for category in object_list %}
+            <div class="small-12 large-6 columns category {% cycle 'odd' 'even' %}{% if forloop.first %} first{% endif %}{% if forloop.last %} last{% endif %}">
+                <div class="inner">
+                    <h3><a href="{% url 'forum-category-details' category.slug %}">{{ category.title }}</a></h3>
+                    
+                    {% if category.description %}<p class="subline">{% text_transform category.description %}</p>{% endif %}
+                    
+                    {% if category.num_threads > 0 %}
+                    <div class="row">
+                        <div class="small-12 large-6 columns">
+                            <p class="centered">Fils de discussion: {{ category.num_threads }}</p>
+                        </div>
+                        <div class="small-12 large-6 columns text-right">
+                            <p><a href="{% url 'forum-category-details' category.slug %}" class="button tiny">Go <i class="icon-right"></i></a></p>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="row">
+                        <div class="small-12 large-6 columns">
+                            <p class="centered">Aucun fil de discussion</p>
+                        </div>
+                        <div class="small-12 large-6 columns text-right">
+                            <p><a href="{% url 'forum-thread-create' category.slug %}" class="button tiny">Créer le premier fil <i class="icon-quill"></i></a></p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if category.get_last_thread %}
+                    <p>
+                        <strong><a href="{% url 'forum-thread-details' category.slug category.get_last_thread.id %}">{{ category.get_last_thread.subject }}</a></strong> -
+                        Le {{ category.get_last_thread.modified|date:"d/m/Y à H:i" }} -
+                        Par <em>{{ category.get_last_thread.get_last_post.author }}</em>
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+        {% empty %}
+            <div class="small-12 columns">
+                <p class="empty">Aucune catégorie</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% comment %}{% pagination_tag pagination_url_args %}{% endcomment %}
+    {% include 'forum/pagination.html' %}
+{% endblock %}
