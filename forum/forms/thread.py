@@ -3,6 +3,7 @@
 Thread forms
 """
 from django import forms
+from django.utils.translation import ugettext_lazy as _
 
 from forum.forms import CrispyFormMixin
 
@@ -11,10 +12,12 @@ from forum.forms.post import PostCreateForm
 
 class ThreadCreateForm(CrispyFormMixin, forms.ModelForm):
     """
-    Formulaire de création
+    Thread's create form
     """
-    text = forms.CharField(label=u'Message', required=True, widget=forms.Textarea(attrs={'cols':'50'}))
-    threadwatch = forms.BooleanField(label=u"Suivre le fil", initial=True, required=False, help_text=u"Une notification sur votre email vous sera envoyée à chaque nouveau message sur ce fil. Vous conserverez la possibilité de ne plus suivre ce fil à tout moment.")
+    crispy_form_helper_path = 'forum.forms.layouts.thread_helper'
+    
+    text = forms.CharField(label=_('Message'), required=True, widget=forms.Textarea(attrs={'cols':'50'}))
+    threadwatch = forms.BooleanField(label=_("Watch this thread"), initial=True, required=False, help_text=_("You will receive an email notification for each new post in this thread. You can disable it in the thread detail if needed."))
     
     def __init__(self, *args, **kwargs):
         self.author = kwargs.pop("user", None)
@@ -56,12 +59,14 @@ class ThreadCreateForm(CrispyFormMixin, forms.ModelForm):
     
     class Meta:
         model = Thread
-        exclude = ('category','author')
+        exclude = ('category', 'author')
 
 class ThreadEditForm(ThreadCreateForm):
     """
-    Formulaire d'édition
+    Thread's edit form
     """
+    crispy_form_helper_path = 'forum.forms.layouts.thread_edit_helper'
+    
     def __init__(self, *args, **kwargs):
         super(ThreadEditForm, self).__init__(*args, **kwargs)
         

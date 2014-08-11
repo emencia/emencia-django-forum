@@ -4,13 +4,12 @@ Here we try to safely use crispy_form if installed
 import warnings
 
 from django.utils.importlib import import_module
-from django.utils.translation import ugettext
+from django.utils.translation import ugettext as _
 
 # Try to import crispy_form base stuff to use for the default helper
 try:
     from crispy_forms.helper import FormHelper
-    from crispy_forms.layout import Layout, Fieldset, Div, Submit
-    from crispy_forms.bootstrap import FormActions
+    from crispy_forms.layout import Submit
 except ImportError:
     def default_helper():
         return None
@@ -19,8 +18,7 @@ else:
         helper = FormHelper()
         helper.form_action = '.'
         helper.form_tag = form_tag
-        helper.form_style = 'inline'
-        helper.add_input(Submit('submit', ugettext('Submit')))
+        helper.add_input(Submit('submit', _('Submit')))
         return helper
 
 
@@ -56,13 +54,14 @@ class CrispyFormMixin(object):
     """
     Embed the technic in a form mixin to use crispy-form and safely fallback if not installed
     """
-    crispy_form_helper_path = None
-    crispy_form_tag = None
+    crispy_form_helper_path = None # Custom layout method path
+    crispy_form_tag = True
     
     def __init__(self, *args, **kwargs):
-        # Default helper
-        self.helper = default_helper(form_tag=self.crispy_form_tag)
         # Specified helper if any (and import succeed)
         helper = get_form_helper(self.crispy_form_helper_path, default=default_helper)
         if helper is not None:
-            self.helper = helper()
+            self.helper = helper(form_tag=self.crispy_form_tag)
+        else:
+            # Default helper
+            self.helper = default_helper(form_tag=self.crispy_form_tag)

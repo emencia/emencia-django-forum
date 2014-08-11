@@ -2,56 +2,60 @@
 {% load i18n crispy_forms_tags forum_markup %}
 
 {% block forum_content %}
-    <div class="actions-menu-ontop">
-        {% if perms.forum.change_thread %}<a class="icon-thread-edit" href="{% url 'forum-thread-edit' category_instance.slug thread_instance.id %}">Modifier ce fil</a>{% endif %}
-        {% if not user.watcher %}<a class="icon-eye-add" href="?{{ pagination_url_args }}watch">Suivre ce fil</a>{% else %}
-        <a class="icon-eye-delete" href="?{{ pagination_url_args }}unwatch">Ne plus suivre ce fil</a>{% endif %}
+    <div class="clearfix">
+        <dl class="sub-nav right">
+            <dt class="hide">{% blocktrans %}Actions{% endblocktrans %}:</dt>
+            {% if perms.forum.change_thread %}<dd><a class="icon-thread-edit" href="{% url 'forum-thread-edit' category_instance.slug thread_instance.id %}"><i class="icon-edit"></i> {% blocktrans %}Edit this thread{% endblocktrans %}</a></dd>{% endif %}
+            <dd>{% if not user.watcher %}
+                <a href="?{{ pagination_url_args }}watch"><i class="icon-eye"></i> {% blocktrans %}Watch this thread{% endblocktrans %}</a>
+            {% else %}
+                <a href="?{{ pagination_url_args }}unwatch"><i class="icon-eye-blocked"></i> {% blocktrans %}Unwatch this thread{% endblocktrans %}</a>
+            {% endif %}</dd>
+        </dl>
     </div>
     
-    <h3>Messages</h3>
-    <div class="flat_thread">
         {% for post in object_list %}
-        <div id="forum_post_{{ post.id }}" class="item {% cycle 'odd' 'even' %}{% if forloop.first %} first{% endif %}{% if forloop.last %} last{% endif %}">
-            <div class="user tile_box tile_box_20">
-                <div class="inner">
-                    <h4>{{ post.author }}</h4>
-                    <p>{% comment %}{{ post.author }}{% endcomment %}</p>
-                </div>
+        <div id="forum_post_{{ post.id }}" class="row post {% cycle 'odd' 'even' %}{% if forloop.first %} first{% endif %}{% if forloop.last %} last{% endif %}">
+            <div class="columns small-12 medium-2 text-center">
+                <p><img src="http://placehold.it/125x125" alt=""></p>
+                <p>{{ post.author }} <a href="#forum_post_{{ post.id }}">#{{ post.id }}</a></p>
             </div>
-            <div class="content tile_box tile_box_80">
-                <div class="inner date">
-                    {% if perms.forum.change_post or perms.forum.delete_post %}<div class="actions">
-                        {% if perms.forum.change_post %}<a class="icon_inline icon-post-edit" href="{% url 'forum-post-edit' category_instance.slug thread_instance.id post.id %}">Modifier</a>{% endif %}
-                        {% if not forloop.first and perms.forum.delete_post %}<a class="icon_inline icon-post-delete delete_to_confirm" href="{% url 'forum-post-delete' category_instance.slug thread_instance.id post.id %}">Supprimer</a>{% endif %}
-                    </div>{% endif %}
-                    
-                    <p><a href="#forum_post_{{ post.id }}">#{{ forloop.counter }}</a> - {{ post.created|date:"d/m/Y à H:i" }}</p>
-                </div>
-                    <div class="cale"></div>
-                <div class="inner">
-                    <div class="wiki2xhtml text">
-                        {% text_transform post.text %}
-                        {% if post.attachment_file %}<div class="attachments">
-                            <h4>Fichier joint :</h4>
-                            <a class="icon_inline icon-link-go" href="{{ post.attachment_file.url }}">{{ post.attachment_title }}</a>
-                        </div>{% endif %}
+            <div class="columns small-12 medium-10">
+                <div class="{% cycle 'panel' 'panel callout' %} radius">
+                    <div class="date">
+                        <h4 title="{{ post.created|date:"d/m/Y à H:i" }}">
+                            {% blocktrans with created_date=post.created|timesince %}Since {{ created_date }}{% endblocktrans %}
+                        </h4>
                     </div>
+                    <div class="message">
+                        {% comment %}{% text_transform post.text %}{% endcomment %}
+                        {{ post.text|linebreaks }}
+                    </div>
+                    {% if perms.forum.change_post or perms.forum.delete_post %}<div class="actions text-right">
+                        <a class="button tiny radius" href="#reply">{% blocktrans %}Reply{% endblocktrans %} <i class="icon-quill"></i></a>
+                        {% if perms.forum.change_post %}<a class="button tiny radius" href="{% url 'forum-post-edit' category_instance.slug thread_instance.id post.id %}">{% blocktrans %}Edit{% endblocktrans %} <i class="icon-edit"></i></a>{% endif %}
+                        {% if not forloop.first and perms.forum.delete_post %}<a class="button tiny radius" href="{% url 'forum-post-delete' category_instance.slug thread_instance.id post.id %}">{% blocktrans %}Delete{% endblocktrans %}</a>{% endif %}
+                    </div>{% endif %}
+                    {% if post.modified > post.created %}
+                        <p class="text-right" title="{{ post.modified|date:"d/m/Y à H:i" }}">
+                            {% blocktrans with modified_date=post.modified|timesince %}Edited since {{ modified_date }}{% endblocktrans %}
+                        </p>
+                    {% endif %}
                 </div>
             </div>
-            <div class="cale"></div>
         </div>
         {% endfor %}
-    </div>
     
     {% comment %}{% pagination_tag %}{% endcomment %}
     {% include 'forum/pagination.html' %}
     
+    <hr>
     {% if form %}
-    <h3>Nouveau message</h3>
+    <h3 id="reply">{% blocktrans %}New message{% endblocktrans %}</h3>
     {% crispy form %}
     {% else %}
-    <div class="notice-box locked-notice">
-        <p>Ce fil de discussion est fermé en écriture, vous ne pouvez y poster de nouveau message.</p>
+    <div data-alert class="alert-box info radius">
+        <p>{% blocktrans %}This thread is closed, you can't add it a new post{% endblocktrans %}</p>
     </div>
     {% endif %}
 {% endblock %}

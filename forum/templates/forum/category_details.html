@@ -1,13 +1,14 @@
 {% extends "forum/base.html" %}
+{% load i18n %}
 
 {% block forum_content %}
-    <hr>
-    
-    <dl class="sub-nav right">
-        <dd><a class="icon-thread-add" href="{% url 'forum-thread-create' category_instance.slug %}"><i class="icon-quill"></i> Nouveau fil de discussion</a></dd>
-        {% if perms.forum.change_category %}<dd><a class="icon-folder-edit" href="{% url 'forum-category-edit' category_instance.slug %}"><i class="icon-edit"></i> Modifier la catégorie</a></dd>{% endif %}
-    </dl>
-    <hr>
+    <div class="clearfix">
+        <dl class="sub-nav right">
+            <dt class="hide">{% blocktrans %}Actions{% endblocktrans %}:</dt>
+            <dd><a href="{% url 'forum-thread-create' category_instance.slug %}"><i class="icon-quill"></i> {% blocktrans %}New thread{% endblocktrans %}</a></dd>
+            {% if perms.forum.change_category %}<dd><a href="{% url 'forum-category-edit' category_instance.slug %}"><i class="icon-edit"></i> {% blocktrans %}Edit category{% endblocktrans %}</a></dd>{% endif %}
+        </dl>
+    </div>
     
     {% with object_list as thread_list %}
     {% include "forum/generic_thread_index.html" %}

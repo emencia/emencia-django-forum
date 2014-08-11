@@ -1,8 +1,9 @@
+{% load i18n %}
     {% if announces %}<div class="topbox announces">
-        <h3>Annonces importantes</h3>
+        <h3>{% blocktrans %}Forum announces{% endblocktrans %}</h3>
         {% for thread in announces %}
         <div class="notice-box announce-notice">
-            <p><strong>{{ thread.modified|date:"d/m/Y" }}</strong> - <a href="{% url forum-thread-details thread.category.slug thread.id %}">{{ thread.subject }} (lire)</a></p>
+            <p><strong>{{ thread.modified|date:"d/m/Y" }}</strong> - <a href="{% url forum-thread-details thread.category.slug thread.id %}">{{ thread.subject }}</a></p>
         </div>
     {% endfor %}
     </div>{% endif %}

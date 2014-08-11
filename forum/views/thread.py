@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Vues des fils de discussions
+Thread views
 """
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
@@ -23,7 +24,7 @@ class ThreadQuerysetFiltersMixin(object):
     """
     def get_queryset(self, *args, **kwargs):
         q = super(ThreadQuerysetFiltersMixin, self).get_queryset(*args, **kwargs)
-        return q.filter(category__visible=True, visible=True).annotate(num_posts=Count('post')).order_by('-sticky', '-modified')
+        return q.filter(category__visible=True, visible=True).annotate(num_posts=Count('post')).select_related().order_by('-sticky', '-modified')
 
 class LastThreadViews(LoginRequiredMixin, ThreadQuerysetFiltersMixin, SimpleListView):
     """
@@ -31,7 +32,7 @@ class LastThreadViews(LoginRequiredMixin, ThreadQuerysetFiltersMixin, SimpleList
     """
     template_name = 'forum/last_threads.html'
     queryset = Thread.objects.all()
-    paginate_by = 20
+    paginate_by = settings.FORUM_LAST_THREAD_PAGINATE
 
 class ThreadDetailsView(LoginRequiredMixin, UserFormKwargsMixin, ListAppendView):
     """
@@ -40,7 +41,7 @@ class ThreadDetailsView(LoginRequiredMixin, UserFormKwargsMixin, ListAppendView)
     model = Post
     form_class = PostCreateForm
     template_name = 'forum/thread_details.html'
-    paginate_by = None
+    paginate_by = settings.FORUM_THREAD_DETAIL_PAGINATE
     context_object_name = 'object_list'
     
     def get_queryset(self, *args, **kwargs):
@@ -48,7 +49,7 @@ class ThreadDetailsView(LoginRequiredMixin, UserFormKwargsMixin, ListAppendView)
         self.thread_instance = get_object_or_404(Thread, category=self.category_instance, pk=self.kwargs['thread_id'], visible=True)
         self.queryset = self.thread_instance.post_set.select_related().order_by('created')
         
-        # Tag form as locked for non admins only on a closed thread
+        # Mark the form as locked for non-admin users on a closed thread
         if not self.request.user.is_staff:
             self.locked_form = self.thread_instance.closed
         

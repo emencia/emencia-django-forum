@@ -3,8 +3,8 @@ Introduction
 
 Yet another Django forum app.
 
-* Simple, no gadgets like other big forums;
-* More suited for an internal team use (like a company extranet) that for big public communities;
+* Simple;
+* More suited for an internal team use (like a company's extranet) than for big public communities;
 * Have categories that contains threads that contains messages;
 * Have thread watchs;
 * Have thread sticky mode and announce mode;
@@ -12,6 +12,12 @@ Yet another Django forum app.
 TODO
 ----
 
+* Use url namespace 'forum';
+* Update to last Foundation5;
+* Better Readme (With Install, etc..);
+
+* Apply rights permissions (like for admin views only);
+* Use Font Awesome webfonts with icomoon instead of the icomoon basic set;
 * Redo mail sending for thread watchs;
-* Lots of changes in templates to use foundation5;
 * Use a lightweight RST as markup syntax in object descriptions and messages;
+* Use https://github.com/twaddington/django-gravatar

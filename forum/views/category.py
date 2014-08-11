@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Vues des catégories
+Category views
 """
+from django.conf import settings
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from django.views import generic
@@ -12,7 +13,7 @@ from forum.models import Category, Thread
 
 from forum.utils.views import SimpleListView
 
-from forum.forms.category import CategoryCreateForm, CategoryEditForm
+from forum.forms.category import CategoryForm
 from forum.views.thread import ThreadQuerysetFiltersMixin
 
 class CategoryIndexView(LoginRequiredMixin, SimpleListView):
@@ -21,14 +22,14 @@ class CategoryIndexView(LoginRequiredMixin, SimpleListView):
     """
     template_name = 'forum/category_index.html'
     queryset = Category.objects.filter(visible=True).annotate(num_threads=Count('thread')).order_by('order', 'title')
-    paginate_by = 20
+    paginate_by = settings.FORUM_CATEGORY_INDEX_PAGINATE
 
 class CategoryDetailsView(LoginRequiredMixin, ThreadQuerysetFiltersMixin, SimpleListView):
     """
     Category detail and its thread list
     """
     template_name = 'forum/category_details.html'
-    paginate_by = 20
+    paginate_by = settings.FORUM_CATEGORY_THREAD_PAGINATE
     
     def get_queryset(self, *args, **kwargs):
         self.category_instance = get_object_or_404(Category, slug=self.kwargs['slug'], visible=True)
@@ -49,7 +50,7 @@ class CategoryCreateView(LoginRequiredMixin, generic.CreateView):
     TODO: restrict for admins only
     """
     model = Category
-    form_class = CategoryCreateForm
+    form_class = CategoryForm
     template_name = 'forum/category_form.html'
     permission_required = 'forum.add_category'
     raise_exception = True
@@ -64,7 +65,7 @@ class CategoryEditView(LoginRequiredMixin, generic.UpdateView):
     TODO: restrict for admins only
     """
     model = Category
-    form_class = CategoryEditForm
+    form_class = CategoryForm
     template_name = 'forum/category_form.html'
     context_object_name = "category_instance"
     permission_required = 'forum.change_category'

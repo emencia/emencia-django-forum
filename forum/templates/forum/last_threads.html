@@ -1,7 +1,6 @@
 {% extends "forum/base.html" %}
 
 {% block forum_content %}
-    <h3>Fils récents</h3>
     {% with object_list as thread_list %}
     {% include "forum/generic_thread_index.html" %}
     {% endwith %}
