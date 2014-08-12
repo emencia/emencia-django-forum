@@ -5,7 +5,7 @@
     <div class="clearfix">
         <dl class="sub-nav right">
             <dt class="hide">{% blocktrans %}Actions{% endblocktrans %}:</dt>
-            {% if perms.forum.change_thread %}<dd><a class="icon-thread-edit" href="{% url 'forum-thread-edit' category_instance.slug thread_instance.id %}"><i class="icon-edit"></i> {% blocktrans %}Edit this thread{% endblocktrans %}</a></dd>{% endif %}
+            {% if perms.forum.change_thread %}<dd><a class="icon-thread-edit" href="{% url 'forum:thread-edit' category_instance.slug thread_instance.id %}"><i class="icon-edit"></i> {% blocktrans %}Edit this thread{% endblocktrans %}</a></dd>{% endif %}
             <dd>{% if not user.watcher %}
                 <a href="?{{ pagination_url_args }}watch"><i class="icon-eye"></i> {% blocktrans %}Watch this thread{% endblocktrans %}</a>
             {% else %}
@@ -33,8 +33,8 @@
                     </div>
                     {% if perms.forum.change_post or perms.forum.delete_post %}<div class="actions text-right">
                         <a class="button tiny radius" href="#reply">{% blocktrans %}Reply{% endblocktrans %} <i class="icon-quill"></i></a>
-                        {% if perms.forum.change_post %}<a class="button tiny radius" href="{% url 'forum-post-edit' category_instance.slug thread_instance.id post.id %}">{% blocktrans %}Edit{% endblocktrans %} <i class="icon-edit"></i></a>{% endif %}
-                        {% if not forloop.first and perms.forum.delete_post %}<a class="button tiny radius" href="{% url 'forum-post-delete' category_instance.slug thread_instance.id post.id %}">{% blocktrans %}Delete{% endblocktrans %}</a>{% endif %}
+                        {% if perms.forum.change_post %}<a class="button tiny radius" href="{% url 'forum:post-edit' category_instance.slug thread_instance.id post.id %}">{% blocktrans %}Edit{% endblocktrans %} <i class="icon-edit"></i></a>{% endif %}
+                        {% if not forloop.first and perms.forum.delete_post %}<a class="button tiny radius" href="{% url 'forum:post-delete' category_instance.slug thread_instance.id post.id %}">{% blocktrans %}Delete{% endblocktrans %}</a>{% endif %}
                     </div>{% endif %}
                     {% if post.modified > post.created %}
                         <p class="text-right" title="{{ post.modified|date:"d/m/Y à H:i" }}">

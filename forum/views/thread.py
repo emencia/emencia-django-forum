@@ -150,4 +150,4 @@ class ThreadEditView(LoginRequiredMixin, UserFormKwargsMixin, generic.UpdateView
         if self.object.visible:
             return self.object.get_absolute_url()
         else:
-            return reverse('forum-category-details', args=(self.object.category.slug,))
+            return reverse('gestus:category-details', args=(self.object.category.slug,))

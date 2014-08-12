@@ -57,4 +57,4 @@ class PostDeleteView(LoginRequiredMixin, DirectDeleteView):
         return get_object_or_404(Post, thread__id=self.kwargs['thread_id'], thread__category=self.category_instance, pk=self.kwargs['post_id'])
 
     def get_success_url(self):
-        return reverse('forum-thread-details', args=(self.category_instance.slug, self.object.thread_id))
+        return reverse('forum:thread-details', args=(self.category_instance.slug, self.object.thread_id))

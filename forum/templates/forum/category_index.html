@@ -5,8 +5,8 @@
     <div class="clearfix">
         <dl class="sub-nav right">
             <dt class="hide">{% blocktrans %}Actions{% endblocktrans %}:</dt>
-            <dd><a href="{% url 'forum-thread-recent' %}"><i class="icon-clock"></i> {% blocktrans %}Last threads{% endblocktrans %}</a></dd>
-            {% if user.is_staff %}<dd><a href="{% url 'forum-category-create' %}"><i class="icon-quill"></i> {% blocktrans %}New category{% endblocktrans %}</a></dd>{% endif %}
+            <dd><a href="{% url 'forum:thread-recent' %}"><i class="icon-clock"></i> {% blocktrans %}Last threads{% endblocktrans %}</a></dd>
+            {% if user.is_staff %}<dd><a href="{% url 'forum:category-create' %}"><i class="icon-quill"></i> {% blocktrans %}New category{% endblocktrans %}</a></dd>{% endif %}
         </dl>
     </div>
     
@@ -14,7 +14,7 @@
         {% for category in object_list %}
             <div class="small-12 large-6 columns category {% cycle 'odd' 'even' %}{% if forloop.first %} first{% endif %}{% if forloop.last %} last{% endif %}">
                 <div class="inner">
-                    <h3><a href="{% url 'forum-category-details' category.slug %}">{{ category.title }}</a></h3>
+                    <h3><a href="{% url 'forum:category-details' category.slug %}">{{ category.title }}</a></h3>
                     
                     {% if category.description %}<p class="subline">{% text_transform category.description %}</p>{% endif %}
                     
@@ -24,7 +24,7 @@
                             <p class="centered">{% blocktrans %}Thread{% endblocktrans %}: {{ category.num_threads }}</p>
                         </div>
                         <div class="small-12 large-6 columns text-right">
-                            <p><a href="{% url 'forum-category-details' category.slug %}" class="button tiny">{% blocktrans %}Browse category{% endblocktrans %} <i class="icon-right"></i></a></p>
+                            <p><a href="{% url 'forum:category-details' category.slug %}" class="button tiny">{% blocktrans %}Browse category{% endblocktrans %} <i class="icon-right"></i></a></p>
                         </div>
                     </div>
                     {% else %}
@@ -33,14 +33,14 @@
                             <p class="centered">{% blocktrans %}No thread yet{% endblocktrans %}</p>
                         </div>
                         <div class="small-12 large-6 columns text-right">
-                            <p><a href="{% url 'forum-thread-create' category.slug %}" class="button tiny">{% blocktrans %}Create first thread{% endblocktrans %} <i class="icon-quill"></i></a></p>
+                            <p><a href="{% url 'forum:thread-create' category.slug %}" class="button tiny">{% blocktrans %}Create first thread{% endblocktrans %} <i class="icon-quill"></i></a></p>
                         </div>
                     </div>
                     {% endif %}
                     
                     {% if category.get_last_thread %}
                     <p>
-                        <strong><a href="{% url 'forum-thread-details' category.slug category.get_last_thread.id %}">{{ category.get_last_thread.subject }}</a></strong> -
+                        <strong><a href="{% url 'forum:thread-details' category.slug category.get_last_thread.id %}">{{ category.get_last_thread.subject }}</a></strong> -
                         {% blocktrans with thread_date=category.get_last_thread.modified|date:"d/m/Y à H:i" thread_author=category.get_last_thread.get_last_post.author %}On {{ thread_date }} - By <em>{{ thread_author }}</em>{% endblocktrans %}
                     </p>
                     {% endif %}

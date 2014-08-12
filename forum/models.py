@@ -21,7 +21,7 @@ class Category(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('forum-category-details', [self.slug])
+        return ('forum:category-details', [self.slug])
 
     def get_last_thread(self):
         """
@@ -59,7 +59,7 @@ class Thread(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('forum-thread-details', [self.category.slug, self.id])
+        return ('forum:thread-details', [self.category.slug, self.id])
 
     def get_first_post(self):
         """

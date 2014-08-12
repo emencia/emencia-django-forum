@@ -5,16 +5,16 @@
         <li class="{% cycle 'odd' 'even' %}{% if forloop.first %} first{% endif %}{% if forloop.last %} last{% endif %}{% if thread.sticky %} highlighted{% endif %}">
             {% comment %}<td style="width:50%;" class="notice-box{% if thread.announce %} announce-notice{% else %}{% if thread.sticky %} sticky-notice{% else %}{% if thread.closed %} locked-notice{% endif %}{% endif %}{% endif %}">{% endcomment %}
                 <p class="right text-right">
-                    {% if not category_instance %}<a href="{% url 'forum-category-details' thread.category.slug %}"><span class="label round">{{ thread.category }}</span></a><br/>{% endif %}
+                    {% if not category_instance %}<a href="{% url 'forum:category-details' thread.category.slug %}"><span class="label round">{{ thread.category }}</span></a><br/>{% endif %}
                     {% comment %}{% with num_posts=thread.num_posts|add:"-1" %}{{ num_posts }} answer{{ num_posts|pluralize }}{% endwith %}{% endcomment %}
                     {% blocktrans with num_posts=thread.num_posts|add:"-1" plural=thread.num_posts|add:"-1"|pluralize %}
                         {{ num_posts }} answer{{ plural }}.
                     {% endblocktrans %}
                 </p>
                 {% if category_instance %}
-                    <h4><a href="{% url 'forum-thread-details' category_instance.slug thread.id %}">{{ thread.subject }}</a></h4>
+                    <h4><a href="{% url 'forum:thread-details' category_instance.slug thread.id %}">{{ thread.subject }}</a></h4>
                 {% else %}
-                    <h4><a href="{% url 'forum-thread-details' thread.category.slug thread.id %}">{{ thread.subject }}</a></h4>
+                    <h4><a href="{% url 'forum:thread-details' thread.category.slug thread.id %}">{{ thread.subject }}</a></h4>
                 {% endif %}
                 <p>{% blocktrans with thread_date=thread.modified|timesince thread_author=thread.get_last_post.author %}Since {{ thread_date }} - By <em>{{ thread_author }}</em>{% endblocktrans %}</p>
         </li>
