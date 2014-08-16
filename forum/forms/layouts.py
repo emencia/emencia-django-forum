@@ -70,6 +70,20 @@ def thread_helper(form_tag=True, edit_mode=False):
                 css_class='small-12'
             ),
         ),
+    ]
+    
+    # Category field only in edit form
+    if edit_mode:
+        fieldsets.append(
+            Row(
+                Column(
+                    'category',
+                    css_class='small-12'
+                ),
+            ),
+        )
+    
+    fieldsets.append(
         Row(
             Column(
                 'sticky',
@@ -84,7 +98,7 @@ def thread_helper(form_tag=True, edit_mode=False):
                 css_class='small-12 medium-4'
             ),
         ),
-    ]
+    )
     
     # First message is not in edit form
     if not edit_mode:
@@ -175,3 +189,29 @@ def post_helper(form_tag=True, edit_mode=False):
 
 def post_edit_helper(form_tag=True):
     return post_helper(form_tag=form_tag, edit_mode=True)
+
+def post_delete_helper(form_tag=True):
+    """
+    Message's delete form layout helper
+    """
+    helper = FormHelper()
+    helper.form_action = '.'
+    helper.attrs = {'data_abide': ''}
+    helper.form_tag = form_tag
+    
+    helper.layout = Layout(
+        ButtonHolderPanel(
+            Row(
+                Column(
+                    'confirm',
+                    css_class='small-12 medium-8'
+                ),
+                Column(
+                    Submit('submit', _('Submit')),
+                    css_class='small-12 medium-4 text-right'
+                ),
+            ),
+        ),
+    )
+    
+    return helper

@@ -11,3 +11,6 @@ FORUM_CATEGORY_THREAD_PAGINATE = 20
 # Messages pagination in 'Thread detail' view
 # TODO: Actually to None because pagination cause troubles with Post.get_absolute_url
 FORUM_THREAD_DETAIL_PAGINATE = None
+
+# If True message owner can edit its text, else only admin/moderate
+FORUM_OWNER_MESSAGE_CAN_EDIT = True

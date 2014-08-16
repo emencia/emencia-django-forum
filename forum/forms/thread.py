@@ -29,10 +29,11 @@ class ThreadCreateForm(CrispyFormMixin, forms.ModelForm):
         #self.fields['attachment_title'] = postform.fields['attachment_title']
         #self.fields['attachment_file'] = postform.fields['attachment_file']
         
-        # Vire les champs manipulables uniquement par les admins
-        for k in ('closed','sticky','announce','visible'):
-            if not self.author.is_staff:
-                del self.fields[k]
+        ## Vire les champs manipulables uniquement par les admins
+        # TODO: Layout need to be more flexible to re-enable this
+        #for k in ('closed','sticky','announce','visible'):
+            #if not self.author.is_staff:
+                #del self.fields[k]
     
     def save(self):
         # Crée le nouveau fil
@@ -88,4 +89,4 @@ class ThreadEditForm(ThreadCreateForm):
     
     class Meta:
         model = Thread
-        exclude = ()
+        exclude = ('author',)

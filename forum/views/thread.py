@@ -4,39 +4,34 @@ Thread views
 """
 from django.conf import settings
 from django.core.urlresolvers import reverse
-from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from django.views import generic
 from django.views.generic.edit import FormMixin
 
+from guardian.mixins import PermissionRequiredMixin
+
 from braces.views import LoginRequiredMixin, UserFormKwargsMixin
 
 from forum.utils.views import SimpleListView, ListAppendView
-
+from forum.mixins import ModeratorRequiredMixin, ThreadQuerysetFiltersMixin
 from forum.models import Category, Thread, Post
 
 from forum.forms.post import PostCreateForm
 from forum.forms.thread import ThreadCreateForm, ThreadEditForm
 
-class ThreadQuerysetFiltersMixin(object):
-    """
-    Just a mixin to add common Thread list filters (not for detail views)
-    """
-    def get_queryset(self, *args, **kwargs):
-        q = super(ThreadQuerysetFiltersMixin, self).get_queryset(*args, **kwargs)
-        return q.filter(category__visible=True, visible=True).annotate(num_posts=Count('post')).select_related().order_by('-sticky', '-modified')
 
 class LastThreadViews(LoginRequiredMixin, ThreadQuerysetFiltersMixin, SimpleListView):
     """
-    Last modified thread
+    Last modified thread view
     """
     template_name = 'forum/last_threads.html'
     queryset = Thread.objects.all()
     paginate_by = settings.FORUM_LAST_THREAD_PAGINATE
 
+
 class ThreadDetailsView(LoginRequiredMixin, UserFormKwargsMixin, ListAppendView):
     """
-    Thread list with a form to a new message
+    Thread list view with a form to post a new message
     """
     model = Post
     form_class = PostCreateForm
@@ -50,6 +45,7 @@ class ThreadDetailsView(LoginRequiredMixin, UserFormKwargsMixin, ListAppendView)
         self.queryset = self.thread_instance.post_set.select_related().order_by('created')
         
         # Mark the form as locked for non-admin users on a closed thread
+        # TODO: Unlock this also for moderators
         if not self.request.user.is_staff:
             self.locked_form = self.thread_instance.closed
         
@@ -58,6 +54,7 @@ class ThreadDetailsView(LoginRequiredMixin, UserFormKwargsMixin, ListAppendView)
     def get_context_data(self, **kwargs):
         context = super(ThreadDetailsView, self).get_context_data(**kwargs)
         context.update({
+            'FORUM_OWNER_MESSAGE_CAN_EDIT': settings.FORUM_OWNER_MESSAGE_CAN_EDIT,
             'category_instance': self.category_instance,
             'thread_instance': self.thread_instance,
         })
@@ -88,14 +85,15 @@ class ThreadDetailsView(LoginRequiredMixin, UserFormKwargsMixin, ListAppendView)
         
         return resp
 
+
 class ThreadCreateView(LoginRequiredMixin, UserFormKwargsMixin, generic.CreateView):
     """
-    Thread create
+    Thread create view is available for anyone
     """
     model = Thread
     form_class = ThreadCreateForm
     template_name = 'forum/thread_form.html'
-    permission_required = 'forum.add_category'
+    #permission_required = 'forum.add_category'
     raise_exception = True
     
     def get_category(self):
@@ -123,17 +121,17 @@ class ThreadCreateView(LoginRequiredMixin, UserFormKwargsMixin, generic.CreateVi
     def get_success_url(self):
         return self.object.get_absolute_url()
 
-class ThreadEditView(LoginRequiredMixin, UserFormKwargsMixin, generic.UpdateView):
+
+class ThreadEditView(LoginRequiredMixin, ModeratorRequiredMixin, UserFormKwargsMixin, generic.UpdateView):
     """
-    Thread edit
+    Thread edit view
     
-    TODO: restrict for admins only (and message owner)
+    Restricted to moderators
     """
     model = Thread
     form_class = ThreadEditForm
     template_name = 'forum/thread_form.html'
     context_object_name = "thread_instance"
-    permission_required = 'forum.change_thread'
     raise_exception = True
     
     def get_object(self, *args, **kwargs):
@@ -145,6 +143,14 @@ class ThreadEditView(LoginRequiredMixin, UserFormKwargsMixin, generic.UpdateView
             'category_instance': self.object.category,
         })
         return context
+
+    def check_permissions(self, request):
+        """
+        Check if user have global or per object moderator permissions, first on category instance, 
+        if not then on thread instance
+        """
+        thread_instance = self.get_object()
+        return self.check_moderator_permissions(request, thread_instance.category, thread_instance)
 
     def get_success_url(self):
         if self.object.visible:

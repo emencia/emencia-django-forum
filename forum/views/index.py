@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
-"""
-Vues d'index général
-"""
 from forum.views.category import CategoryIndexView
 
 """
-Page d'index, utilise la vue d'index des catégories
+Forum index is actually using the Category index view
 """
 class IndexView(CategoryIndexView): pass

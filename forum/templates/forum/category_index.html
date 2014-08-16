@@ -6,7 +6,7 @@
         <dl class="sub-nav right">
             <dt class="hide">{% blocktrans %}Actions{% endblocktrans %}:</dt>
             <dd><a href="{% url 'forum:thread-recent' %}"><i class="icon-clock"></i> {% blocktrans %}Last threads{% endblocktrans %}</a></dd>
-            {% if user.is_staff %}<dd><a href="{% url 'forum:category-create' %}"><i class="icon-quill"></i> {% blocktrans %}New category{% endblocktrans %}</a></dd>{% endif %}
+            {% if user.is_staff %}<dd><a href="{% url 'forum:category-create' %}"><i class="icon-add-circle"></i> {% blocktrans %}New category{% endblocktrans %}</a></dd>{% endif %}
         </dl>
     </div>
     
@@ -20,20 +20,20 @@
                     
                     {% if category.num_threads > 0 %}
                     <div class="row">
-                        <div class="small-12 large-6 columns">
-                            <p class="centered">{% blocktrans %}Thread{% endblocktrans %}: {{ category.num_threads }}</p>
+                        <div class="small-12 large-6 columns text-center">
+                            <p>{% blocktrans %}Thread{% endblocktrans %}: {{ category.num_threads }}</p>
                         </div>
                         <div class="small-12 large-6 columns text-right">
-                            <p><a href="{% url 'forum:category-details' category.slug %}" class="button tiny">{% blocktrans %}Browse category{% endblocktrans %} <i class="icon-right"></i></a></p>
+                            <p><a href="{% url 'forum:category-details' category.slug %}" class="button tiny">{% blocktrans %}Browse category{% endblocktrans %} <i class="icon-arrow-right"></i></a></p>
                         </div>
                     </div>
                     {% else %}
                     <div class="row">
-                        <div class="small-12 large-6 columns">
-                            <p class="centered">{% blocktrans %}No thread yet{% endblocktrans %}</p>
+                        <div class="small-12 large-6 columns text-center">
+                            <p>{% blocktrans %}No thread yet{% endblocktrans %}</p>
                         </div>
                         <div class="small-12 large-6 columns text-right">
-                            <p><a href="{% url 'forum:thread-create' category.slug %}" class="button tiny">{% blocktrans %}Create first thread{% endblocktrans %} <i class="icon-quill"></i></a></p>
+                            <p><a href="{% url 'forum:thread-create' category.slug %}" class="button tiny">{% blocktrans %}Create first thread{% endblocktrans %} <i class="icon-pencil"></i></a></p>
                         </div>
                     </div>
                     {% endif %}

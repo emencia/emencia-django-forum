@@ -39,6 +39,9 @@ class Category(models.Model):
     class Meta:
         verbose_name = _("Category")
         verbose_name_plural = _("Categories")
+        permissions = (
+            ('moderate', 'Moderate category'),
+        )
 
 class Thread(models.Model):
     """
@@ -102,6 +105,9 @@ class Thread(models.Model):
     class Meta:
         verbose_name = _("Thread")
         verbose_name_plural = _("Threads")
+        permissions = (
+            ('moderate', 'Moderate thread'),
+        )
 
 class ThreadWatch(models.Model):
     """

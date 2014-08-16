@@ -11,4 +11,5 @@ site.update({
     'forum:thread-create': ugettext_lazy('<small class="subhead">{{ category_instance.title }}</small> New thread'),
     'forum:thread-edit': ugettext_lazy('<small class="subhead">{{ thread_instance.subject }}</small> Thread edit'),
     'forum:post-edit': ugettext_lazy('<small class="subhead">{{ thread_instance.subject }}</small> Edit message #{{ post_instance.id }}'),
+    'forum:post-delete': ugettext_lazy('<small class="subhead">{{ thread_instance.subject }}</small> Delete message #{{ post_instance.id }}'),
 })

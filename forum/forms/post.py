@@ -79,3 +79,26 @@ class PostEditForm(CrispyFormMixin, forms.ModelForm):
     class Meta:
         model = Post
         exclude = ('thread','author')
+
+class PostDeleteForm(CrispyFormMixin, forms.ModelForm):
+    """
+    Message delete form
+    """
+    crispy_form_helper_path = 'forum.forms.layouts.post_delete_helper'
+    
+    confirm = forms.BooleanField(label=_("Confirm"), initial=False, required=True)
+    
+    def __init__(self, *args, **kwargs):
+        super(PostDeleteForm, self).__init__(*args, **kwargs)
+        super(forms.ModelForm, self).__init__(*args, **kwargs)
+        
+    def save(self):
+        thread_instance = self.instance.thread
+        
+        self.instance.delete()
+        
+        return thread_instance
+    
+    class Meta:
+        model = Post
+        exclude = ('thread','author','text')

@@ -1,15 +1,22 @@
 {% extends "forum/base.html" %}
-{% load i18n crispy_forms_tags forum_markup %}
+{% load i18n crispy_forms_tags forum_markup guardian_tags %}
 
 {% block forum_content %}
+    {% get_obj_perms request.user for category_instance as "category_perms" %}
+    {% get_obj_perms request.user for thread_instance as "thread_perms" %}
+
     <div class="clearfix">
         <dl class="sub-nav right">
             <dt class="hide">{% blocktrans %}Actions{% endblocktrans %}:</dt>
-            {% if perms.forum.change_thread %}<dd><a class="icon-thread-edit" href="{% url 'forum:thread-edit' category_instance.slug thread_instance.id %}"><i class="icon-edit"></i> {% blocktrans %}Edit this thread{% endblocktrans %}</a></dd>{% endif %}
+            {% if "moderate_category" in category_perms or "moderate_thread" in thread_perms %}
+                <dd><a href="{% url 'forum:thread-edit' category_instance.slug thread_instance.id %}">
+                    <i class="icon-edit"></i> {% blocktrans %}Edit this thread{% endblocktrans %}
+                </a></dd>
+            {% endif %}
             <dd>{% if not user.watcher %}
                 <a href="?{{ pagination_url_args }}watch"><i class="icon-eye"></i> {% blocktrans %}Watch this thread{% endblocktrans %}</a>
             {% else %}
-                <a href="?{{ pagination_url_args }}unwatch"><i class="icon-eye-blocked"></i> {% blocktrans %}Unwatch this thread{% endblocktrans %}</a>
+                <a href="?{{ pagination_url_args }}unwatch"><i class="icon-eye-slash"></i> {% blocktrans %}Unwatch this thread{% endblocktrans %}</a>
             {% endif %}</dd>
         </dl>
     </div>
@@ -31,11 +38,19 @@
                         {% comment %}{% text_transform post.text %}{% endcomment %}
                         {{ post.text|linebreaks }}
                     </div>
-                    {% if perms.forum.change_post or perms.forum.delete_post %}<div class="actions text-right">
-                        <a class="button tiny radius" href="#reply">{% blocktrans %}Reply{% endblocktrans %} <i class="icon-quill"></i></a>
-                        {% if perms.forum.change_post %}<a class="button tiny radius" href="{% url 'forum:post-edit' category_instance.slug thread_instance.id post.id %}">{% blocktrans %}Edit{% endblocktrans %} <i class="icon-edit"></i></a>{% endif %}
-                        {% if not forloop.first and perms.forum.delete_post %}<a class="button tiny radius" href="{% url 'forum:post-delete' category_instance.slug thread_instance.id post.id %}">{% blocktrans %}Delete{% endblocktrans %}</a>{% endif %}
-                    </div>{% endif %}
+                    <div class="actions text-right">
+                        <a class="button tiny radius" href="#reply">{% blocktrans %}Reply{% endblocktrans %} <i class="icon-add-circle"></i></a>
+                        {% if FORUM_OWNER_MESSAGE_CAN_EDIT and post.author == request.user or  "moderate_category" in category_perms or "moderate_thread" in thread_perms %}
+                            <a class="button tiny radius" href="{% url 'forum:post-edit' category_instance.slug thread_instance.id post.id %}">
+                                {% blocktrans %}Edit{% endblocktrans %} <i class="icon-edit"></i>
+                            </a>
+                        {% endif %}
+                        {% if "moderate_category" in category_perms or "moderate_thread" in thread_perms %}
+                            {% if not forloop.first %}<a class="button tiny radius" href="{% url 'forum:post-delete' category_instance.slug thread_instance.id post.id %}">
+                                {% blocktrans %}Delete{% endblocktrans %} <i class="icon-remove-circle"></i>
+                            </a>{% endif %}
+                        {% endif %}
+                    </div>
                     {% if post.modified > post.created %}
                         <p class="text-right" title="{{ post.modified|date:"d/m/Y à H:i" }}">
                             {% blocktrans with modified_date=post.modified|timesince %}Edited since {{ modified_date }}{% endblocktrans %}
@@ -54,7 +69,7 @@
     <h3 id="reply">{% blocktrans %}New message{% endblocktrans %}</h3>
     {% crispy form %}
     {% else %}
-    <div data-alert class="alert-box info radius">
+    <div data-alert class="alert-box warning radius text-center">
         <p>{% blocktrans %}This thread is closed, you can't add it a new post{% endblocktrans %}</p>
     </div>
     {% endif %}

@@ -7,6 +7,8 @@ from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from django.views import generic
 
+from guardian.mixins import PermissionRequiredMixin
+
 from braces.views import LoginRequiredMixin
 
 from forum.models import Category, Thread
@@ -14,19 +16,20 @@ from forum.models import Category, Thread
 from forum.utils.views import SimpleListView
 
 from forum.forms.category import CategoryForm
-from forum.views.thread import ThreadQuerysetFiltersMixin
+from forum.mixins import ThreadQuerysetFiltersMixin
 
 class CategoryIndexView(LoginRequiredMixin, SimpleListView):
     """
-    Category list
+    Category list view
     """
     template_name = 'forum/category_index.html'
     queryset = Category.objects.filter(visible=True).annotate(num_threads=Count('thread')).order_by('order', 'title')
     paginate_by = settings.FORUM_CATEGORY_INDEX_PAGINATE
 
+
 class CategoryDetailsView(LoginRequiredMixin, ThreadQuerysetFiltersMixin, SimpleListView):
     """
-    Category detail and its thread list
+    Category detail view with its thread list
     """
     template_name = 'forum/category_details.html'
     paginate_by = settings.FORUM_CATEGORY_THREAD_PAGINATE
@@ -43,11 +46,12 @@ class CategoryDetailsView(LoginRequiredMixin, ThreadQuerysetFiltersMixin, Simple
         })
         return context
 
-class CategoryCreateView(LoginRequiredMixin, generic.CreateView):
+
+class CategoryCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
     """
     Category create form view
     
-    TODO: restrict for admins only
+    Restricted to user with ``forum.add_category`` global permission
     """
     model = Category
     form_class = CategoryForm
@@ -58,17 +62,17 @@ class CategoryCreateView(LoginRequiredMixin, generic.CreateView):
     def get_success_url(self):
         return self.object.get_absolute_url()
 
-class CategoryEditView(LoginRequiredMixin, generic.UpdateView):
+class CategoryEditView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
     """
     Category edit form view
     
-    TODO: restrict for admins only
+    Restricted to category moderators
     """
     model = Category
     form_class = CategoryForm
     template_name = 'forum/category_form.html'
     context_object_name = "category_instance"
-    permission_required = 'forum.change_category'
+    permission_required = 'forum.moderate_category'
     raise_exception = True
 
     def get_success_url(self):
