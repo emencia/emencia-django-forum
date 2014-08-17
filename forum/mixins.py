@@ -1,16 +1,18 @@
 """
 Common forum mixins
 """
+from django.conf import settings
 from django.db.models import Count
 from django.http import HttpResponseForbidden
+from django.shortcuts import render_to_response
+from django.template import RequestContext, TemplateDoesNotExist
 
+from guardian.conf import settings as guardian_settings
 from guardian.mixins import PermissionRequiredMixin
 
 class ModeratorRequiredMixin(PermissionRequiredMixin):
     """
     Mixin to check for moderator permission on category or thread (if not present for category)
-    
-    TODO: Use 'RENDER_403' behavior and not anymore HttpResponseForbidden
     """
     permission_required = ['forum.moderate_category', 'forum.moderate_thread']
     
@@ -40,7 +42,13 @@ class ModeratorRequiredMixin(PermissionRequiredMixin):
         
         # Raise a forbidden response if still no permission at all
         if not has_category_permissions and not has_thread_permissions:
-            return HttpResponseForbidden()
+            try:
+                response = render_to_response(getattr(guardian_settings, 'TEMPLATE_403', '403.html'), {}, RequestContext(request))
+                response.status_code = 403
+                return response
+            except TemplateDoesNotExist as e:
+                if settings.DEBUG:
+                    raise e
         
         return False
 

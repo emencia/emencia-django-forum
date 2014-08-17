@@ -1,5 +1,5 @@
 {% extends "forum/base.html" %}
-{% load i18n crispy_forms_tags forum_markup guardian_tags %}
+{% load i18n crispy_forms_tags guardian_tags rstview_tags %}
 
 {% block forum_content %}
     {% get_obj_perms request.user for category_instance as "category_perms" %}
@@ -35,8 +35,7 @@
                         </h4>
                     </div>
                     <div class="message">
-                        {% comment %}{% text_transform post.text %}{% endcomment %}
-                        {{ post.text|linebreaks }}
+                        {{ post.text|source_render:"forum_message" }}
                     </div>
                     <div class="actions text-right">
                         <a class="button tiny radius" href="#reply">{% blocktrans %}Reply{% endblocktrans %} <i class="icon-add-circle"></i></a>

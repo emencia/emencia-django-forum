@@ -23,6 +23,7 @@ setup(
     ],
     install_requires=[
         'South >= 0.8.4',
+        'rstview >= 0.2',
         'autobreadcrumbs >= 1.0',
         'django-braces>=1.2.0,<1.4',
         'django-crispy-forms >= 1.4.0',
