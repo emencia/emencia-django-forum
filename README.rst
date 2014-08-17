@@ -123,4 +123,9 @@ And so, you can add the needed permissions globally to the whole forum within ea
 
 Others Category's and Thread's model permissions have no roles on frontend.
 
-Permission error is rendered though a ``403.html`` template that is allready embedded within this app, you override it in your project with adding your custom ``403.html`` template in your project templates directory. Also you can use another template name, you will have to define its name in ``settings.GUARDIAN_TEMPLATE_403`` (yes, this is setting from `django-guardian`_, see its doc for more details).
+Permission error response
+.........................
+
+Permission error is rendered though a ``403.html`` template that is allready embedded within this app, you can override it in your project with adding your custom ``403.html`` template in your project templates directory.
+
+Also you can use another template name, you will have to define its name in ``settings.GUARDIAN_TEMPLATE_403`` (yes, this is setting from `django-guardian`_, see its doc for more details).
