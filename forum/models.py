@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 from django.utils.timezone import now as tz_now
 
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
+import django.dispatch
+
+from forum.forms import get_form_helper
 
 class Category(models.Model):
     """
@@ -171,3 +175,14 @@ class Post(models.Model):
     class Meta:
         verbose_name = _("Message")
         verbose_name_plural = _("Messages")
+
+
+# Declaring signals
+new_message_posted_signal = django.dispatch.Signal(providing_args=["post_instance","threadwatchs"])
+
+# Trying to import signal receiver callable
+message_post_receiver = get_form_helper(settings.FORUM_NEW_POST_SIGNAL)
+
+# Connecting signal to the receiver if any
+if message_post_receiver:
+    new_message_posted_signal.connect(message_post_receiver, dispatch_uid="forum.post.new_post_watcher")

@@ -15,10 +15,12 @@ FORUM_THREAD_DETAIL_PAGINATE = None
 # If True message owner can edit its text, else only admin/moderate
 FORUM_OWNER_MESSAGE_CAN_EDIT = True
 
-# Add new specific rst parser settings for Forum app, if you have other apps that 
-# define parser settings this can lead to overwrite problems . In this case, 
-# just defined all parser setting in the same 'RSTVIEW_PARSER_FILTER_SETTINGS' 
-# in your project settings
+FORUM_NEW_POST_SIGNAL = 'forum.signals.new_message_posted_receiver'
+
+# Add new specific "rstview" parser settings for Forum app, if you have other apps 
+# that define parser settings this can lead to overwrite problems . In this 
+# case, just defined all parser setting in the same 
+# 'RSTVIEW_PARSER_FILTER_SETTINGS' in your project settings
 RSTVIEW_PARSER_FILTER_SETTINGS = {
     'forum_message':{
         'initial_header_level': 5,

@@ -129,3 +129,31 @@ Permission error response
 Permission error is rendered though a ``403.html`` template that is allready embedded within this app, you can override it in your project with adding your custom ``403.html`` template in your project templates directory.
 
 Also you can use another template name, you will have to define its name in ``settings.GUARDIAN_TEMPLATE_403`` (yes, this is setting from `django-guardian`_, see its doc for more details).
+
+Thread watch
+------------
+
+Users can subscribe to watch for new message on a thread and so they can receive notifications about them.
+
+This is working with `Django`_ signals, when a new thread message a signal is sended and a receiver is listen to them. The receiver will receive a signal containing some arguments about the message and the thread watchs so it can be used to send email notifications.
+
+The signals usage in this process enables you to make your own receiver to send notifications with your specific email provider/sender or even on another message system (irc, jabber, whatever..).
+
+Default behavior is to use ``forum.signals.new_message_posted_receiver`` that use simple Django email sending and generally it should fit to your needs.
+
+However if you need to have your own receiver, just define the Python path to it, remember that it should be a callable respecting the defined ``kwargs`` and avoid to import Forum models in your code as it will make a circular import error.
+
+An example in your settings to use your own receiver : ::
+
+    FORUM_NEW_POST_SIGNAL = 'myproject.signals.mycallback'
+
+And a receiver example : ::
+
+    def new_message_posted_receiver(sender, **kwargs):
+        message = kwargs['post_instance']
+        threadwatchs = kwargs['threadwatchs']
+        
+        print "New message #{0} has been posted on thread:".format(message.id), message.thread
+        
+        for item in threadwatchs:
+            print "*", item, "for", item.owner

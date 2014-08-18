@@ -4,10 +4,11 @@ Message post forms
 """
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+import django.dispatch
 
 from forum.forms import CrispyFormMixin
 
-from forum.models import Category, Post
+from forum.models import new_message_posted_signal, Category, Post
 
 class PostCreateForm(CrispyFormMixin, forms.ModelForm):
     """
@@ -39,21 +40,15 @@ class PostCreateForm(CrispyFormMixin, forms.ModelForm):
             #attachment_title=self.cleaned_data["attachment_title"],
         )
         
-        # Thread watch option
+        # Save thread watch option
         if self.cleaned_data.get("threadwatch", False) and self.thread_instance.threadwatch_set.filter(owner=self.author).count()==0:
             threadwatch_instance = self.thread_instance.threadwatch_set.create(owner=self.author)
         
+        # Find threadwatchs that are not for the message owner (it don't have to notified)
         threadwatchs = self.thread_instance.threadwatch_set.all().exclude(owner=self.author)
         if threadwatchs>0:
-            # TODO: Redo the sending mail process
-            #MailControler = mailings_site.get_controler('forum_notify_new_post')
-            #MailControler.set_context(extra_context={
-                #'thread_instance': self.thread_instance,
-                #'post_instance': post_instance,
-            #})
-            #MailControler.send_separate_mail([item.owner for item in threadwatchs])
-            pass
-        
+            # Sending signal
+            new_message_posted_signal.send(sender=self, post_instance=post_instance, threadwatchs=threadwatchs)
         
         return post_instance
     
