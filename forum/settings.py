@@ -17,6 +17,9 @@ FORUM_OWNER_MESSAGE_CAN_EDIT = True
 
 FORUM_NEW_POST_SIGNAL = 'forum.signals.new_message_posted_receiver'
 
+# Specific email sender address, if None 
+FORUM_EMAIL_SENDER = None
+
 # Add new specific "rstview" parser settings for Forum app, if you have other apps 
 # that define parser settings this can lead to overwrite problems . In this 
 # case, just defined all parser setting in the same 

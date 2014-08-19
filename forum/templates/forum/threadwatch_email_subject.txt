@@ -1,0 +1,1 @@
+{% load i18n %}[{{ SITE.name }}] {% trans "Forum - A new message has been posted" %}

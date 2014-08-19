@@ -133,9 +133,26 @@ Also you can use another template name, you will have to define its name in ``se
 Thread watch
 ------------
 
-Users can subscribe to watch for new message on a thread and so they can receive notifications about them.
+Users can subscribe to watch for new messages on a thread and so they can receive notifications about them.
 
-This is working with `Django`_ signals, when a new thread message a signal is sended and a receiver is listen to them. The receiver will receive a signal containing some arguments about the message and the thread watchs so it can be used to send email notifications.
+When a new message is posted on a thread, all users that have subscribed to the thread watch will receive a email except for the message author. ``settings.FORUM_EMAIL_SENDER`` will be used to send emails if defined, else ``settings.DEFAULT_FROM_EMAIL`` will be used instead.
+
+You can change the email subject and content templates used to build the emails :
+
+* ``forum/threadwatch_email_subject.txt`` for the subject;
+* ``forum/threadwatch_email_content.txt`` for the content;
+
+These templates receive a context with some variables :
+
+* ``SITE`` : the current Site (from the Django "sites" framework);
+* ``thread_instance`` : the thread instance where the message has been posted;
+* ``post_instance`` : the message instance that have been posted;
+
+
+Create your own email sender for notifications
+..............................................
+
+This is working with `Django`_ signals, when a new thread message is created, a signal is sended and a receiver is listen to them. The receiver will receive a signal containing some arguments about the message and the thread watchs so it can be used to send email notifications.
 
 The signals usage in this process enables you to make your own receiver to send notifications with your specific email provider/sender or even on another message system (irc, jabber, whatever..).
 
@@ -157,3 +174,5 @@ And a receiver example : ::
         
         for item in threadwatchs:
             print "*", item, "for", item.owner
+
+See ``forum.signals.new_message_posted_receiver`` to have a real example and don't forget to read about signals in the Django documentation.

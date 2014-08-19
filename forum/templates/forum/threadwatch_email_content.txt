@@ -1,0 +1,11 @@
+{% load i18n %}{% blocktrans with site_domain=SITE.domain subject=thread_instance.subject message=post_instance.text|truncatechars:200 message_url=post_instance.get_absolute_url thread_url=thread_instance.get_absolute_url %}Hi,
+
+A new message has been posted on thread "{{ subject }}" :
+
+{{ message }}
+
+----------------------------------------
+Link to the new post : http://{{ site_domain }}{{ message_url }}
+
+You receive this email because you have subscribed to the thread watch. You can unsubscribe on the thread page : http://{{ site_domain }}{{ thread_url }}
+{% endblocktrans %}
