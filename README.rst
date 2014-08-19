@@ -21,6 +21,7 @@ Features
 * Have thread watches: users can subscribe to receive email notification for each new message in a thread;
 * Have thread sticky mode and announce mode;
 * i18n usage for the interface;
+* Use RestructuredText from docutils as markup syntax for messages;
 * Global or 'per object' moderation on categories, threads and messages;
 
 Links

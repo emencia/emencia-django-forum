@@ -6,6 +6,8 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 import django.dispatch
 
+from rstview.parser import SourceReporter, map_parsing_errors
+
 from forum.forms import CrispyFormMixin
 
 from forum.models import new_message_posted_signal, Category, Post
@@ -24,6 +26,17 @@ class PostCreateForm(CrispyFormMixin, forms.ModelForm):
         super(forms.ModelForm, self).__init__(*args, **kwargs)
         
         self.fields['threadwatch'] = forms.BooleanField(label=_("Watch this thread"), initial=True, required=False, help_text=_("You will receive an email notification for each new post in this thread. You can disable it in the thread detail if needed."))
+
+    def clean_text(self):
+        """
+        Parse le contenu pour vérifier qu'il ne contient par d'erreurs de syntaxe
+        """
+        content = self.cleaned_data.get("text")
+        if content:
+            errors = SourceReporter(content)
+            if errors:
+                raise forms.ValidationError(map(map_parsing_errors, errors))
+        return content
     
     def clean(self):
         cleaned_data = super(PostCreateForm, self).clean()
