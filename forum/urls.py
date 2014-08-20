@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-Urls
-
-TODO: Exclude "create" word for category slugs
+Forum URLs
 """
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 
 from forum.views.index import IndexView
 from forum.views.category import CategoryDetailsView, CategoryCreateView, CategoryEditView
-from forum.views.post import PostEditView, PostDeleteView
+from forum.views.post import PostEditView, PostDeleteView, PostRedirectView
 from forum.views.thread import LastThreadViews, ThreadDetailsView, ThreadCreateView, ThreadEditView
 
 urlpatterns = patterns('',
@@ -25,4 +23,5 @@ urlpatterns = patterns('',
     url(r'^category/(?P<category_slug>[-\w]+)/(?P<thread_id>\d+)/edit/$', ThreadEditView.as_view(), name="thread-edit"),
     url(r'^category/(?P<category_slug>[-\w]+)/(?P<thread_id>\d+)/(?P<post_id>\d+)/edit/$', PostEditView.as_view(), name="post-edit"),
     url(r'^category/(?P<category_slug>[-\w]+)/(?P<thread_id>\d+)/(?P<post_id>\d+)/delete/$', PostDeleteView.as_view(), name="post-delete"),
+    url(r'^category/(?P<category_slug>[-\w]+)/(?P<thread_id>\d+)/(?P<post_id>\d+)/show/$', PostRedirectView.as_view(), name="post-show"),
 )

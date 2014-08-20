@@ -22,10 +22,10 @@
     </div>
     
         {% for post in object_list %}
-        <div id="forum_post_{{ post.id }}" class="row post {% cycle 'odd' 'even' %}{% if forloop.first %} first{% endif %}{% if forloop.last %} last{% endif %}">
+        <div id="forum-post-{{ post.id }}" class="row post {% cycle 'odd' 'even' %}{% if forloop.first %} first{% endif %}{% if forloop.last %} last{% endif %}">
             <div class="columns small-12 medium-2 text-center">
                 <p><img src="http://placehold.it/125x125" alt=""></p>
-                <p>{{ post.author }} <a href="#forum_post_{{ post.id }}">#{{ post.id }}</a></p>
+                <p>{{ post.author }} <a href="#forum-post-{{ post.id }}">#{{ post.id }}</a></p>
             </div>
             <div class="columns small-12 medium-10">
                 <div class="{% cycle 'panel' 'panel callout' %} radius">

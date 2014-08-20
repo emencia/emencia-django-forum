@@ -17,6 +17,18 @@ from forum.models import Category, Post
 
 from forum.forms.post import PostEditForm, PostDeleteForm
 
+
+class PostRedirectView(LoginRequiredMixin, generic.RedirectView):
+    """
+    View to find and redirect to the exact page where is the Post
+    """
+    permanent = False
+
+    def get_redirect_url(self, **kwargs):
+        post_instance = get_object_or_404(Post, pk=kwargs['post_id'])
+        return post_instance.get_absolute_url()
+    
+
 class PostEditView(LoginRequiredMixin, ModeratorRequiredMixin, generic.UpdateView):
     """
     Message edit view

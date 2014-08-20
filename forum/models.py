@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-from django.utils.timezone import now as tz_now
+import math
 
 from django.conf import settings
-from django.db import models
 from django.contrib.auth.models import User
-from django.utils.translation import ugettext_lazy as _
+from django.db import models
 import django.dispatch
+from django.utils.translation import ugettext_lazy as _
+from django.utils.timezone import now as tz_now
 
 from forum.forms import get_form_helper
 
@@ -46,6 +47,7 @@ class Category(models.Model):
         permissions = (
             ('moderate', 'Moderate category'),
         )
+
 
 class Thread(models.Model):
     """
@@ -113,6 +115,7 @@ class Thread(models.Model):
             ('moderate', 'Moderate thread'),
         )
 
+
 class ThreadWatch(models.Model):
     """
     Thread watch
@@ -127,10 +130,6 @@ class ThreadWatch(models.Model):
         verbose_name = _("Thread watch")
         verbose_name_plural = _("Thread watchs")
 
-class DummyAttachment(object):
-    def __init__(self, attached_file):
-        self.file = attached_file
-        self.title = self.file.url
 
 class Post(models.Model):
     """
@@ -146,8 +145,30 @@ class Post(models.Model):
         return _("{0}: message #{1}").format(self.thread.subject, self.id)
 
     def get_absolute_url(self):
-        # WARNING: Ne fonctionnera pas dans un thread paginé en plusieurs pages
-        return u"{0}#forum_post_{1}".format(self.thread.get_absolute_url(), self.id)
+        return u"{0}{1}".format(self.thread.get_absolute_url(), self.get_paginated_urlargs())
+    
+    def get_paginated_urlargs(self):
+        """
+        Return url arguments to retrieve the Post in a paginated list
+        """
+        position = self.get_paginated_position()
+        
+        if not position:
+            return '#forum-post-{0}'.format(self.id)
+        
+        return '?page={0}#forum-post-{1}'.format(position, self.id)
+    
+    def get_paginated_position(self):
+        """
+        Return the Post position in the paginated list
+        """
+        # If Post list is not paginated
+        if not settings.FORUM_THREAD_DETAIL_PAGINATE:
+            return 0
+        
+        count = Post.objects.filter(thread=self.thread_id, created__lt=self.created).count() + 1
+        
+        return int(math.ceil(count / float(settings.FORUM_THREAD_DETAIL_PAGINATE)))
     
     def save(self, *args, **kwargs):
         """
