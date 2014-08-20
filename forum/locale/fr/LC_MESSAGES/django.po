@@ -1,0 +1,366 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-08-20 02:39+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: crumbs.py:5
+msgid "Forum"
+msgstr ""
+
+#: crumbs.py:6
+msgid "<small class=\"subhead\">Category</small> {{ category_instance.title }}"
+msgstr ""
+"<small class=\"subhead\">Categorie</small> {{ category_instance.title }}"
+
+#: crumbs.py:7 templates/forum/category_index.html:9
+msgid "New category"
+msgstr "Nouvelle catégorie"
+
+#: crumbs.py:8
+msgid "<small class=\"subhead\">{{ category_instance.title }}</small> Edit"
+msgstr "<small class=\"subhead\">{{ category_instance.title }}</small> Éditer"
+
+#: crumbs.py:9
+msgid "Recent threads"
+msgstr "Fils de discussion récents"
+
+#: crumbs.py:10
+msgid ""
+"<small class=\"subhead\">{{ category_instance.title }}</small> "
+"{{ thread_instance.subject }}"
+msgstr ""
+
+#: crumbs.py:11
+msgid ""
+"<small class=\"subhead\">{{ category_instance.title }}</small> New thread"
+msgstr ""
+"<small class=\"subhead\">{{ category_instance.title }}</small> Nouveau fil "
+"de discussion"
+
+#: crumbs.py:12
+msgid ""
+"<small class=\"subhead\">{{ thread_instance.subject }}</small> Thread edit"
+msgstr ""
+"<small class=\"subhead\">{{ thread_instance.subject }}</small> Éditer le fil "
+"de discussion"
+
+#: crumbs.py:13
+msgid ""
+"<small class=\"subhead\">{{ thread_instance.subject }}</small> Edit message #"
+"{{ post_instance.id }}"
+msgstr ""
+"<small class=\"subhead\">{{ thread_instance.subject }}</small> Éditer le "
+"message #{{ post_instance.id }}"
+
+#: crumbs.py:14
+msgid ""
+"<small class=\"subhead\">{{ thread_instance.subject }}</small> Delete "
+"message #{{ post_instance.id }}"
+msgstr ""
+"<small class=\"subhead\">{{ thread_instance.subject }}</small> Supprimer le "
+"message #{{ post_instance.id }}"
+
+#: models.py:17 models.py:56 models.py:140
+msgid "created"
+msgstr "création"
+
+#: models.py:18
+msgid "slug"
+msgstr ""
+
+#: models.py:19
+msgid "order"
+msgstr "position"
+
+#: models.py:20
+msgid "title"
+msgstr "titre"
+
+#: models.py:21
+msgid "description"
+msgstr ""
+
+#: models.py:22 models.py:64
+msgid "visible"
+msgstr ""
+
+#: models.py:22
+msgid "Unvisible category won't be visible nor its threads."
+msgstr ""
+"Les catégories non visibles ne seront pas affichés ni leur fils de discussion"
+
+#: models.py:45
+msgid "Category"
+msgstr "Catégorie"
+
+#: models.py:46
+msgid "Categories"
+msgstr "Catégories"
+
+#: models.py:57 models.py:141
+msgid "modified"
+msgstr "modification"
+
+#: models.py:57
+msgid "This only filled when a message is added."
+msgstr "Seulement rempli lorsqu'un message est ajouté."
+
+#: models.py:58 models.py:138
+msgid "author"
+msgstr "auteur"
+
+#: models.py:59
+msgid "category"
+msgstr "catégorie"
+
+#: models.py:60
+msgid "subject"
+msgstr "sujet"
+
+#: models.py:61
+msgid "closed"
+msgstr "fermé"
+
+#: models.py:62
+msgid "sticky"
+msgstr "fixé"
+
+#: models.py:62
+msgid "Sticky thread will be on top of thread list."
+msgstr "Les fils de discussions fixés seront au sommet des listes."
+
+#: models.py:63
+msgid "announce"
+msgstr "annonce"
+
+#: models.py:63
+msgid "Announce thread can be displayed out of the forum"
+msgstr "Les fils de discussion d'annonce peuvent être affichés hors du forum"
+
+#: models.py:64
+msgid "Unvisible threads won't be visible nor its messages."
+msgstr ""
+"Les fils de discussion non visibles ne seront pas affichés ni leur messages."
+
+#: models.py:112 templates/forum/category_index.html:24
+msgid "Thread"
+msgstr "Fil de discussion"
+
+#: models.py:113
+msgid "Threads"
+msgstr "Fils de discussion"
+
+#: models.py:123
+msgid "owner"
+msgstr "auteur"
+
+#: models.py:124 models.py:139
+msgid "thread"
+msgstr "fil de discussion"
+
+#: models.py:127
+msgid "Thread watch : {0}"
+msgstr "Surveillance du fil de discussion"
+
+#: models.py:130
+msgid "Thread watch"
+msgstr "Surveillance d'un fil de discussion"
+
+#: models.py:131
+msgid "Thread watchs"
+msgstr "Surveillances de fils de discussion"
+
+#: models.py:142
+msgid "message"
+msgstr ""
+
+#: models.py:145
+msgid "{0}: message #{1}"
+msgstr ""
+
+#: models.py:197 forms/thread.py:19
+msgid "Message"
+msgstr ""
+
+#: models.py:198
+msgid "Messages"
+msgstr ""
+
+#: forms/__init__.py:21 forms/layouts.py:48 forms/layouts.py:136
+#: forms/layouts.py:181 forms/layouts.py:210
+msgid "Submit"
+msgstr "Soumettre"
+
+#: forms/post.py:28 forms/thread.py:20 templates/forum/thread_details.html:17
+msgid "Watch this thread"
+msgstr "Surveiller ce fil de discussion"
+
+#: forms/post.py:28 forms/thread.py:20
+msgid ""
+"You will receive an email notification for each new post in this thread. You "
+"can disable it in the thread detail if needed."
+msgstr ""
+"Vous recevrez un email de notification pour chaque nouveau message de ce fil "
+"de discussion. Vous pourrez le désactiver dans le détail de ce fil de "
+"discussion si besoin"
+
+#: forms/post.py:44
+msgid "This thread is closed, you can't add it a new post."
+msgstr ""
+"Ce fil de discussion est fermé, vous ne pouvez y ajouter un nouveau message."
+
+#: forms/post.py:97
+msgid "Confirm"
+msgstr "Confirmer"
+
+#: templates/403.html:6 templates/403.html.py:11
+msgid "Error 403"
+msgstr "Erreur 403"
+
+#: templates/403.html:6 templates/403.html.py:11
+msgid "Forbidden"
+msgstr "Interdit"
+
+#: templates/403.html:14
+msgid "You don't have permission to access this ressource."
+msgstr "Vous n'avez pas la permission pour accéder à cette ressource."
+
+#: templates/forum/category_details.html:9
+#: templates/forum/category_index.html:7
+#: templates/forum/thread_details.html:10
+msgid "Actions"
+msgstr ""
+
+#: templates/forum/category_details.html:10
+msgid "New thread"
+msgstr "Nouveau fil de discussion"
+
+#: templates/forum/category_details.html:11
+msgid "Edit category"
+msgstr "Éditer la catégorie"
+
+#: templates/forum/category_index.html:8
+msgid "Last threads"
+msgstr "Derniers fils de discussion"
+
+#: templates/forum/category_index.html:27
+msgid "Browse category"
+msgstr "Voir la catégorie"
+
+#: templates/forum/category_index.html:33
+#: templates/forum/generic_thread_index.html:23
+msgid "No thread yet"
+msgstr "Aucun fil de discussion"
+
+#: templates/forum/category_index.html:36
+msgid "Create first thread"
+msgstr "Créer le premier fil de discussion"
+
+#: templates/forum/category_index.html:44
+#, python-format
+msgid "On %(thread_date)s - By <em>%(thread_author)s</em>"
+msgstr "Le %(thread_date)s - Par <em>%(thread_author)s</em>"
+
+#: templates/forum/category_index.html:51
+msgid "No category yet"
+msgstr "Aucune catégorie"
+
+#: templates/forum/generic_thread_index.html:12
+#, python-format
+msgid "%(num_posts)s answer%(plural)s."
+msgstr "%(num_posts)s réponse%(plural)s."
+
+#: templates/forum/generic_thread_index.html:19
+#, python-format
+msgid "Since %(thread_date)s - By <em>%(thread_author)s</em>"
+msgstr "Il y a %(thread_date)s - Par <em>%(thread_author)s</em>"
+
+#: templates/forum/thread_details.html:13
+msgid "Edit this thread"
+msgstr "Éditer le fil de discussion"
+
+#: templates/forum/thread_details.html:19
+msgid "Unwatch this thread"
+msgstr "Ne plus surveiller ce fil de discussion"
+
+#: templates/forum/thread_details.html:34
+#, python-format
+msgid "Since %(created_date)s"
+msgstr "Il y a %(created_date)s"
+
+#: templates/forum/thread_details.html:41
+msgid "Reply"
+msgstr "Répondre"
+
+#: templates/forum/thread_details.html:44
+msgid "Edit"
+msgstr "Éditer"
+
+#: templates/forum/thread_details.html:49
+msgid "Delete"
+msgstr "Supprimer"
+
+#: templates/forum/thread_details.html:55
+#, python-format
+msgid "Edited since %(modified_date)s"
+msgstr "Édité il y a %(modified_date)s"
+
+#: templates/forum/thread_details.html:69
+msgid "New message"
+msgstr "Nouveau message"
+
+#: templates/forum/thread_details.html:73
+msgid "This thread is closed, you can't add it a new post"
+msgstr ""
+"Ce fil de discussion est fermé, vous ne pouvez y ajouter un nouveau message"
+
+#: templates/forum/thread_widget_announces.html:3
+msgid "Forum announces"
+msgstr "Annonces du forum"
+
+#: templates/forum/threadwatch_email_content.txt:1
+#, python-format
+msgid ""
+"Hi,\n"
+"\n"
+"A new message has been posted on thread \"%(subject)s\" :\n"
+"\n"
+"%(message)s\n"
+"\n"
+"----------------------------------------\n"
+"Link to the new post : http://%(site_domain)s%(message_url)s\n"
+"\n"
+"You receive this email because you have subscribed to the thread watch. You "
+"can unsubscribe on the thread page : http://%(site_domain)s%(thread_url)s\n"
+msgstr ""
+"Bonjour,\n"
+"\n"
+"Un nouveau message a été ajouté sur le fil de discussion \"%(subject)s\" :\n"
+"\n"
+"%(message)s\n"
+"\n"
+"----------------------------------------\n"
+"Lien vers le nouveau message : http://%(site_domain)s%(message_url)s\n"
+"\n"
+"Vous recevez cet email car vous surveillez ce fil de discussion. Vous pouvez "
+"vous désinscrire de cette surveillance sur la page du fil de discussion : "
+"http://%(site_domain)s%(thread_url)s\n"
+
+#: templates/forum/threadwatch_email_subject.txt:1
+msgid "Forum - A new message has been posted"
+msgstr "Forum - Un nouveau message a été ajouté"

@@ -61,7 +61,7 @@ class Thread(models.Model):
     closed = models.BooleanField(_("closed"), default=False)
     sticky = models.BooleanField(_("sticky"), default=False, help_text=_("Sticky thread will be on top of thread list."))
     announce = models.BooleanField(_("announce"), default=False, help_text=_("Announce thread can be displayed out of the forum"))
-    visible = models.BooleanField(_('visible'), default=True, help_text=_("Unvisible category won't be visible nor its messages."))
+    visible = models.BooleanField(_('visible'), default=True, help_text=_("Unvisible threads won't be visible nor its messages."))
 
     def __unicode__(self):
         return self.subject
