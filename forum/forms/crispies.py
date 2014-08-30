@@ -1,5 +1,7 @@
 """
 Crispy forms layouts
+
+TODO: Rename module to "crispies.py"
 """
 from django.utils.translation import ugettext_lazy as _
 

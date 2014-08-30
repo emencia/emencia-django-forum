@@ -14,7 +14,7 @@ class ThreadCreateForm(CrispyFormMixin, forms.ModelForm):
     """
     Thread's create form
     """
-    crispy_form_helper_path = 'forum.forms.layouts.thread_helper'
+    crispy_form_helper_path = 'forum.forms.crispies.thread_helper'
     
     text = forms.CharField(label=_('Message'), required=True, widget=forms.Textarea(attrs={'cols':'50'}))
     threadwatch = forms.BooleanField(label=_("Watch this thread"), initial=True, required=False, help_text=_("You will receive an email notification for each new post in this thread. You can disable it in the thread detail if needed."))
@@ -66,7 +66,7 @@ class ThreadEditForm(ThreadCreateForm):
     """
     Thread's edit form
     """
-    crispy_form_helper_path = 'forum.forms.layouts.thread_edit_helper'
+    crispy_form_helper_path = 'forum.forms.crispies.thread_edit_helper'
     
     def __init__(self, *args, **kwargs):
         super(ThreadEditForm, self).__init__(*args, **kwargs)

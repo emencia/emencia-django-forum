@@ -3,14 +3,13 @@ Common forum mixins
 """
 from django.conf import settings
 from django.db.models import Count
-from django.http import HttpResponseForbidden
 from django.shortcuts import render_to_response
 from django.template import RequestContext, TemplateDoesNotExist
 
 from guardian.conf import settings as guardian_settings
-from guardian.mixins import PermissionRequiredMixin
+from guardian.mixins import PermissionRequiredMixin as PerObjectPermissionRequiredMixin
 
-class ModeratorRequiredMixin(PermissionRequiredMixin):
+class ModeratorRequiredMixin(PerObjectPermissionRequiredMixin):
     """
     Mixin to check for moderator permission on category or thread (if not present for category)
     """

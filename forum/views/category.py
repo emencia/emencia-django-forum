@@ -7,9 +7,9 @@ from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from django.views import generic
 
-from guardian.mixins import PermissionRequiredMixin
+from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 
-from braces.views import LoginRequiredMixin
+from guardian.mixins import PermissionRequiredMixin as PerObjectPermissionRequiredMixin
 
 from forum.models import Category, Thread
 
@@ -47,7 +47,7 @@ class CategoryDetailsView(LoginRequiredMixin, ThreadQuerysetFiltersMixin, Simple
         return context
 
 
-class CategoryCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
+class CategoryCreateView(PermissionRequiredMixin, generic.CreateView):
     """
     Category create form view
     
@@ -62,7 +62,7 @@ class CategoryCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Cr
     def get_success_url(self):
         return self.object.get_absolute_url()
 
-class CategoryEditView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
+class CategoryEditView(PerObjectPermissionRequiredMixin, generic.UpdateView):
     """
     Category edit form view
     

@@ -1,4 +1,5 @@
 .. _Django: https://www.djangoproject.com/
+.. _South: http://south.readthedocs.org/en/latest/
 .. _rstview: https://github.com/sveetch/rstview
 .. _autobreadcrumbs: https://github.com/sveetch/autobreadcrumbs
 .. _django-braces: https://github.com/brack3t/django-braces/
@@ -39,6 +40,10 @@ Requires
 * `django-braces`_ >= 1.2.0,<1.4;
 * `django-crispy-forms`_ >= 1.4.0;
 * `django-guardian`_ >= 1.2.0;
+
+Optionnally :
+
+* `South`_ to perform database migrations for next releases;
 
 Install
 =======
@@ -129,7 +134,7 @@ Permission error response
 
 Permission error is rendered though a ``403.html`` template that is allready embedded within this app, you can override it in your project with adding your custom ``403.html`` template in your project templates directory.
 
-Also you can use another template name, you will have to define its name in ``settings.GUARDIAN_TEMPLATE_403`` (yes, this is setting from `django-guardian`_, see its doc for more details).
+Also you can use another template name, you will have to define its name in ``settings.GUARDIAN_TEMPLATE_403`` (yes, this is a setting from `django-guardian`_, see its doc for more details).
 
 Thread watch
 ------------

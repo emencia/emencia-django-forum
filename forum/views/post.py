@@ -7,8 +7,6 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 from django.views import generic
 
-from guardian.mixins import PermissionRequiredMixin
-
 from braces.views import LoginRequiredMixin
 
 from forum.mixins import ModeratorRequiredMixin
@@ -29,7 +27,7 @@ class PostRedirectView(LoginRequiredMixin, generic.RedirectView):
         return post_instance.get_absolute_url()
     
 
-class PostEditView(LoginRequiredMixin, ModeratorRequiredMixin, generic.UpdateView):
+class PostEditView(ModeratorRequiredMixin, generic.UpdateView):
     """
     Message edit view
     
@@ -47,7 +45,7 @@ class PostEditView(LoginRequiredMixin, ModeratorRequiredMixin, generic.UpdateVie
     def check_permissions(self, request):
         self.object = self.get_object()
         
-        # Owner can edit its post is FORUM_OWNER_MESSAGE_CAN_EDIT settings is enabled
+        # Owner can edit its posts if FORUM_OWNER_MESSAGE_CAN_EDIT setting is True
         if settings.FORUM_OWNER_MESSAGE_CAN_EDIT and self.object.author == request.user:
             return False
             
@@ -64,7 +62,7 @@ class PostEditView(LoginRequiredMixin, ModeratorRequiredMixin, generic.UpdateVie
     def get_success_url(self):
         return self.object.get_absolute_url()
 
-class PostDeleteView(LoginRequiredMixin, ModeratorRequiredMixin, generic.UpdateView):
+class PostDeleteView(ModeratorRequiredMixin, generic.UpdateView):
     """
     Message 'direct to delete' view, without any confirm
     """

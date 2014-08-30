@@ -16,7 +16,7 @@ class PostCreateForm(CrispyFormMixin, forms.ModelForm):
     """
     Message post create form
     """
-    crispy_form_helper_path = 'forum.forms.layouts.post_helper'
+    crispy_form_helper_path = 'forum.forms.crispies.post_helper'
     
     def __init__(self, *args, **kwargs):
         self.author = kwargs.pop("user", None)
@@ -73,7 +73,7 @@ class PostEditForm(CrispyFormMixin, forms.ModelForm):
     """
     Message post edit form
     """
-    crispy_form_helper_path = 'forum.forms.layouts.post_edit_helper'
+    crispy_form_helper_path = 'forum.forms.crispies.post_edit_helper'
     
     def __init__(self, *args, **kwargs):
         super(PostEditForm, self).__init__(*args, **kwargs)
@@ -92,7 +92,7 @@ class PostDeleteForm(CrispyFormMixin, forms.ModelForm):
     """
     Message delete form
     """
-    crispy_form_helper_path = 'forum.forms.layouts.post_delete_helper'
+    crispy_form_helper_path = 'forum.forms.crispies.post_delete_helper'
     
     confirm = forms.BooleanField(label=_("Confirm"), initial=False, required=True)
     

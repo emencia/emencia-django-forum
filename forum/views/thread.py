@@ -8,8 +8,6 @@ from django.shortcuts import get_object_or_404
 from django.views import generic
 from django.views.generic.edit import FormMixin
 
-from guardian.mixins import PermissionRequiredMixin
-
 from braces.views import LoginRequiredMixin, UserFormKwargsMixin
 
 from forum.utils.views import SimpleListView, ListAppendView
@@ -122,7 +120,7 @@ class ThreadCreateView(LoginRequiredMixin, UserFormKwargsMixin, generic.CreateVi
         return self.object.get_absolute_url()
 
 
-class ThreadEditView(LoginRequiredMixin, ModeratorRequiredMixin, UserFormKwargsMixin, generic.UpdateView):
+class ThreadEditView(ModeratorRequiredMixin, UserFormKwargsMixin, generic.UpdateView):
     """
     Thread edit view
     

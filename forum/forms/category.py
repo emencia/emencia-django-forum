@@ -15,7 +15,7 @@ class CategoryForm(CrispyFormMixin, forms.ModelForm):
     """
     Category form
     """
-    crispy_form_helper_path = 'forum.forms.layouts.category_helper'
+    crispy_form_helper_path = 'forum.forms.crispies.category_helper'
     
     def __init__(self, *args, **kwargs):
         super(CategoryForm, self).__init__(*args, **kwargs)
