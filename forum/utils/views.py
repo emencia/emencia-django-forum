@@ -48,11 +48,14 @@ class ListAppendView(SimpleListView, FormMixin):
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(object_list=self.object_list, form=form))
 
+    def get_locked_form(self, form_class):
+        return self.locked_form
+
     def get_form(self, form_class):
         """
         Returns an instance of the form to be used in this view.
         """
-        if self.locked_form:
+        if self.get_locked_form(form_class):
             return None
         return form_class(**self.get_form_kwargs())
         
