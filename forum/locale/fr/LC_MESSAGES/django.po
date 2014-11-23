@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-20 02:39+0200\n"
+"POT-Creation-Date: 2014-11-23 18:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -91,7 +91,7 @@ msgstr "position"
 msgid "title"
 msgstr "titre"
 
-#: models.py:21
+#: models.py:21 forms/category.py:27
 msgid "description"
 msgstr ""
 
@@ -157,7 +157,7 @@ msgid "Unvisible threads won't be visible nor its messages."
 msgstr ""
 "Les fils de discussion non visibles ne seront pas affichés ni leur messages."
 
-#: models.py:112 templates/forum/category_index.html:24
+#: models.py:112 templates/forum/category_index.html:30
 msgid "Thread"
 msgstr "Fil de discussion"
 
@@ -185,7 +185,7 @@ msgstr "Surveillance d'un fil de discussion"
 msgid "Thread watchs"
 msgstr "Surveillances de fils de discussion"
 
-#: models.py:142
+#: models.py:142 forms/post.py:30 forms/post.py:88 forms/thread.py:32
 msgid "message"
 msgstr ""
 
@@ -193,7 +193,7 @@ msgstr ""
 msgid "{0}: message #{1}"
 msgstr ""
 
-#: models.py:197 forms/thread.py:19
+#: models.py:197 forms/thread.py:20
 msgid "Message"
 msgstr ""
 
@@ -201,16 +201,16 @@ msgstr ""
 msgid "Messages"
 msgstr ""
 
-#: forms/__init__.py:21 forms/layouts.py:48 forms/layouts.py:136
-#: forms/layouts.py:181 forms/layouts.py:210
+#: forms/__init__.py:21 forms/crispies.py:48 forms/crispies.py:136
+#: forms/crispies.py:181 forms/crispies.py:210
 msgid "Submit"
 msgstr "Soumettre"
 
-#: forms/post.py:28 forms/thread.py:20 templates/forum/thread_details.html:17
+#: forms/post.py:33 forms/thread.py:21 templates/forum/thread_details.html:21
 msgid "Watch this thread"
 msgstr "Surveiller ce fil de discussion"
 
-#: forms/post.py:28 forms/thread.py:20
+#: forms/post.py:33 forms/thread.py:21
 msgid ""
 "You will receive an email notification for each new post in this thread. You "
 "can disable it in the thread detail if needed."
@@ -219,12 +219,12 @@ msgstr ""
 "de discussion. Vous pourrez le désactiver dans le détail de ce fil de "
 "discussion si besoin"
 
-#: forms/post.py:44
+#: forms/post.py:49
 msgid "This thread is closed, you can't add it a new post."
 msgstr ""
 "Ce fil de discussion est fermé, vous ne pouvez y ajouter un nouveau message."
 
-#: forms/post.py:97
+#: forms/post.py:116
 msgid "Confirm"
 msgstr "Confirmer"
 
@@ -242,7 +242,7 @@ msgstr "Vous n'avez pas la permission pour accéder à cette ressource."
 
 #: templates/forum/category_details.html:9
 #: templates/forum/category_index.html:7
-#: templates/forum/thread_details.html:10
+#: templates/forum/thread_details.html:14
 msgid "Actions"
 msgstr ""
 
@@ -258,31 +258,31 @@ msgstr "Éditer la catégorie"
 msgid "Last threads"
 msgstr "Derniers fils de discussion"
 
-#: templates/forum/category_index.html:27
+#: templates/forum/category_index.html:33
 msgid "Browse category"
 msgstr "Voir la catégorie"
 
-#: templates/forum/category_index.html:33
+#: templates/forum/category_index.html:39
 #: templates/forum/generic_thread_index.html:23
 msgid "No thread yet"
 msgstr "Aucun fil de discussion"
 
-#: templates/forum/category_index.html:36
+#: templates/forum/category_index.html:42
 msgid "Create first thread"
 msgstr "Créer le premier fil de discussion"
 
-#: templates/forum/category_index.html:44
+#: templates/forum/category_index.html:50
 #, python-format
 msgid "On %(thread_date)s - By <em>%(thread_author)s</em>"
 msgstr "Le %(thread_date)s - Par <em>%(thread_author)s</em>"
 
-#: templates/forum/category_index.html:51
+#: templates/forum/category_index.html:57
 msgid "No category yet"
 msgstr "Aucune catégorie"
 
 #: templates/forum/generic_thread_index.html:12
 #, python-format
-msgid "%(num_posts)s answer%(plural)s."
+msgid "%(num_posts)s answer%(plural)s"
 msgstr "%(num_posts)s réponse%(plural)s."
 
 #: templates/forum/generic_thread_index.html:19
@@ -290,41 +290,41 @@ msgstr "%(num_posts)s réponse%(plural)s."
 msgid "Since %(thread_date)s - By <em>%(thread_author)s</em>"
 msgstr "Il y a %(thread_date)s - Par <em>%(thread_author)s</em>"
 
-#: templates/forum/thread_details.html:13
+#: templates/forum/thread_details.html:17
 msgid "Edit this thread"
 msgstr "Éditer le fil de discussion"
 
-#: templates/forum/thread_details.html:19
+#: templates/forum/thread_details.html:23
 msgid "Unwatch this thread"
 msgstr "Ne plus surveiller ce fil de discussion"
 
-#: templates/forum/thread_details.html:34
+#: templates/forum/thread_details.html:38
 #, python-format
 msgid "Since %(created_date)s"
 msgstr "Il y a %(created_date)s"
 
-#: templates/forum/thread_details.html:41
+#: templates/forum/thread_details.html:49
 msgid "Reply"
 msgstr "Répondre"
 
-#: templates/forum/thread_details.html:44
+#: templates/forum/thread_details.html:52
 msgid "Edit"
 msgstr "Éditer"
 
-#: templates/forum/thread_details.html:49
+#: templates/forum/thread_details.html:57
 msgid "Delete"
 msgstr "Supprimer"
 
-#: templates/forum/thread_details.html:55
+#: templates/forum/thread_details.html:63
 #, python-format
 msgid "Edited since %(modified_date)s"
 msgstr "Édité il y a %(modified_date)s"
 
-#: templates/forum/thread_details.html:69
+#: templates/forum/thread_details.html:77
 msgid "New message"
 msgstr "Nouveau message"
 
-#: templates/forum/thread_details.html:73
+#: templates/forum/thread_details.html:81
 msgid "This thread is closed, you can't add it a new post"
 msgstr ""
 "Ce fil de discussion est fermé, vous ne pouvez y ajouter un nouveau message"

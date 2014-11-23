@@ -1,6 +1,10 @@
 {% extends "forum/base.html" %}
 {% load crispy_forms_tags %}
 
+{% block head_base_js %}{{ block.super }}{% if FORUM_TEXT_FIELD_JS_TEMPLATE and form.description %}
+    {% include FORUM_TEXT_FIELD_JS_TEMPLATE with field=form.description %}
+{% endif %}{% endblock %}
+
 {% block forum_content %}
     {% crispy form %}
 {% endblock %}

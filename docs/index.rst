@@ -8,8 +8,8 @@
 .. _Django-CodeMirror: https://github.com/sveetch/djangocodemirror
 .. _RestructuredText: http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
 
-Emencia Django Forum
-====================
+Welcome to Emencia Django Forum's documentation!
+================================================
 
 Yet another Django forum app.
 
@@ -19,12 +19,12 @@ Features
 ********
 
 * Have **categories** that contains **threads** that contains **messages**;
-* Have **thread watches**: users can subscribe to receive email notification for each new message in a thread;
+* Have **thread watches**: users can subscribe to receive email notification for each new message in a thread, see :ref:`threadwatch-section`;
 * Have thread **sticky mode** and **announce mode**;
 * **i18n** usage for the interface;
-* Global or **'per object' moderation** on categories, threads and messages;
-* Optional **markup syntax** for messages, default is `RestructuredText`_ from docutils but you can use your own;
-* Optional **DjangoCodeMirror editor** or your own editor if you want;
+* Global or **'per object' moderation** on categories, threads and messages, see :ref:`permissions-section`;
+* Optional **markup syntax** for messages, default is `RestructuredText`_ from docutils but you can use your own, see :ref:`text-markup-section`;
+* Optional **DjangoCodeMirror editor** or your own editor if you want, see :ref:`text-markup-section`;
 
 Links
 *****
@@ -50,3 +50,14 @@ Optionnally
 
     * `rstview`_ >= 0.2;
     * `Django-CodeMirror`_ >= 0.9.7;
+
+
+Table of contents
+*****************
+
+.. toctree::
+   :maxdepth: 2
+   
+   install.rst
+   usage.rst
+   changelog.rst

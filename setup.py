@@ -22,11 +22,10 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
     install_requires=[
-        'rstview >= 0.2',
-        'autobreadcrumbs >= 1.0',
+        'autobreadcrumbs>=1.0',
         'django-braces>=1.2.0,<1.4',
         'django-guardian>=1.2.0',
-        'django-crispy-forms >= 1.4.0',
+        'crispy-forms-foundation>=0.3.6',
     ],
     include_package_data=True,
     zip_safe=False

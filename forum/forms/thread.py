@@ -2,10 +2,11 @@
 """
 Thread forms
 """
+from django.conf import settings
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from forum.forms import CrispyFormMixin
+from forum.forms import get_form_helper, CrispyFormMixin
 
 from forum.models import Thread
 from forum.forms.post import PostCreateForm
@@ -25,15 +26,29 @@ class ThreadCreateForm(CrispyFormMixin, forms.ModelForm):
         super(ThreadCreateForm, self).__init__(*args, **kwargs)
         super(forms.ModelForm, self).__init__(*args, **kwargs)
         
-        postform = PostCreateForm()
-        #self.fields['attachment_title'] = postform.fields['attachment_title']
-        #self.fields['attachment_file'] = postform.fields['attachment_file']
+        # Set the form field for Post.text
+        field_helper = get_form_helper(settings.FORUM_TEXT_FIELD_HELPER_PATH)
+        if field_helper is not None:
+            self.fields['text'] = field_helper(self, **{'label':_('message'), 'required':True})
+        
+        #postform = PostCreateForm()
         
         ## Vire les champs manipulables uniquement par les admins
         # TODO: Layout need to be more flexible to re-enable this
         #for k in ('closed','sticky','announce','visible'):
             #if not self.author.is_staff:
                 #del self.fields[k]
+
+    def clean_text(self):
+        """
+        Text content validation
+        """
+        text = self.cleaned_data.get("text")
+        validation_helper = get_form_helper(settings.FORUM_TEXT_VALIDATOR_HELPER_PATH)
+        if validation_helper is not None:
+            return validation_helper(self, text)
+        else:
+            return text
     
     def save(self):
         # Crée le nouveau fil

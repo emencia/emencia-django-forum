@@ -2,13 +2,12 @@
 """
 Message post forms
 """
+from django.conf import settings
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 import django.dispatch
 
-from rstview.parser import SourceReporter, map_parsing_errors
-
-from forum.forms import CrispyFormMixin
+from forum.forms import get_form_helper, CrispyFormMixin
 
 from forum.models import new_message_posted_signal, Category, Post
 
@@ -25,18 +24,24 @@ class PostCreateForm(CrispyFormMixin, forms.ModelForm):
         super(PostCreateForm, self).__init__(*args, **kwargs)
         super(forms.ModelForm, self).__init__(*args, **kwargs)
         
+        # Set the form field for Post.text
+        field_helper = get_form_helper(settings.FORUM_TEXT_FIELD_HELPER_PATH)
+        if field_helper is not None:
+            self.fields['text'] = field_helper(self, **{'label':_('message'), 'required':True})
+        
+        # Add threadwatch checkbox
         self.fields['threadwatch'] = forms.BooleanField(label=_("Watch this thread"), initial=True, required=False, help_text=_("You will receive an email notification for each new post in this thread. You can disable it in the thread detail if needed."))
 
     def clean_text(self):
         """
-        Parse le contenu pour vérifier qu'il ne contient par d'erreurs de syntaxe
+        Text content validation
         """
-        content = self.cleaned_data.get("text")
-        if content:
-            errors = SourceReporter(content)
-            if errors:
-                raise forms.ValidationError(map(map_parsing_errors, errors))
-        return content
+        text = self.cleaned_data.get("text")
+        validation_helper = get_form_helper(settings.FORUM_TEXT_VALIDATOR_HELPER_PATH)
+        if validation_helper is not None:
+            return validation_helper(self, text)
+        else:
+            return text
     
     def clean(self):
         cleaned_data = super(PostCreateForm, self).clean()
@@ -49,8 +54,6 @@ class PostCreateForm(CrispyFormMixin, forms.ModelForm):
         post_instance = self.thread_instance.post_set.create(
             author=self.author,
             text=self.cleaned_data["text"],
-            #attachment_file=self.cleaned_data["attachment_file"],
-            #attachment_title=self.cleaned_data["attachment_title"],
         )
         
         # Save thread watch option
@@ -78,6 +81,22 @@ class PostEditForm(CrispyFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(PostEditForm, self).__init__(*args, **kwargs)
         super(forms.ModelForm, self).__init__(*args, **kwargs)
+        
+        # Set the form field for Post.text
+        field_helper = get_form_helper(settings.FORUM_TEXT_FIELD_HELPER_PATH)
+        if field_helper is not None:
+            self.fields['text'] = field_helper(self, **{'label':_('message'), 'required':True})
+
+    def clean_text(self):
+        """
+        Text content validation
+        """
+        text = self.cleaned_data.get("text")
+        validation_helper = get_form_helper(settings.FORUM_TEXT_VALIDATOR_HELPER_PATH)
+        if validation_helper is not None:
+            return validation_helper(self, text)
+        else:
+            return text
         
     def save(self):
         self.instance = super(PostEditForm, self).save()

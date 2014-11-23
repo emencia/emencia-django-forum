@@ -53,6 +53,8 @@ class ThreadDetailsView(LoginRequiredMixin, UserFormKwargsMixin, ListAppendView)
         context = super(ThreadDetailsView, self).get_context_data(**kwargs)
         context.update({
             'FORUM_OWNER_MESSAGE_CAN_EDIT': settings.FORUM_OWNER_MESSAGE_CAN_EDIT,
+            'FORUM_TEXT_FIELD_JS_TEMPLATE': settings.FORUM_TEXT_FIELD_JS_TEMPLATE,
+            'FORUM_TEXT_MARKUP_RENDER_TEMPLATE': settings.FORUM_TEXT_MARKUP_RENDER_TEMPLATE,
             'category_instance': self.category_instance,
             'thread_instance': self.thread_instance,
         })
@@ -108,6 +110,8 @@ class ThreadCreateView(LoginRequiredMixin, UserFormKwargsMixin, generic.CreateVi
     def get_context_data(self, **kwargs):
         context = super(ThreadCreateView, self).get_context_data(**kwargs)
         context.update({
+            'FORUM_TEXT_FIELD_JS_TEMPLATE': settings.FORUM_TEXT_FIELD_JS_TEMPLATE,
+            'FORUM_TEXT_MARKUP_RENDER_TEMPLATE': settings.FORUM_TEXT_MARKUP_RENDER_TEMPLATE,
             'category_instance': self.category_instance,
         })
         return context

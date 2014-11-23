@@ -2,12 +2,12 @@
 """
 Category forms
 """
+from django.conf import settings
 from django import forms
+from django.utils.translation import ugettext_lazy as _
 from django.template.defaultfilters import slugify
 
-from rstview.parser import SourceReporter, map_parsing_errors
-
-from forum.forms import CrispyFormMixin
+from forum.forms import get_form_helper, CrispyFormMixin
 
 from forum.models import Category, Thread
 
@@ -20,17 +20,22 @@ class CategoryForm(CrispyFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CategoryForm, self).__init__(*args, **kwargs)
         super(forms.ModelForm, self).__init__(*args, **kwargs)
+        
+        # Set the form field for Category.description
+        field_helper = get_form_helper(settings.FORUM_TEXT_FIELD_HELPER_PATH)
+        if field_helper is not None:
+            self.fields['description'] = field_helper(self, **{'label':_('description'), 'required':True})
 
     def clean_description(self):
         """
-        Parse le contenu pour vérifier qu'il ne contient par d'erreurs de syntaxe
+        Text content validation
         """
-        content = self.cleaned_data.get("description")
-        if content:
-            errors = SourceReporter(content)
-            if errors:
-                raise forms.ValidationError(map(map_parsing_errors, errors))
-        return content
+        description = self.cleaned_data.get("description")
+        validation_helper = get_form_helper(settings.FORUM_TEXT_VALIDATOR_HELPER_PATH)
+        if validation_helper is not None:
+            return validation_helper(self, description)
+        else:
+            return description
     
     class Meta:
         model = Category

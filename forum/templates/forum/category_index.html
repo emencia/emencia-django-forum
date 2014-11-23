@@ -1,5 +1,5 @@
 {% extends "forum/base.html" %}
-{% load i18n rstview_tags %}
+{% load i18n %}
 
 {% block forum_content %}
     <div class="clearfix">
@@ -16,7 +16,13 @@
                 <div class="inner">
                     <h3><a href="{% url 'forum:category-details' category.slug %}">{{ category.title }}</a></h3>
                     
-                    {% if category.description %}<div class="subline">{{ category.description|source_render:"forum_message" }}</div>{% endif %}
+                    {% if category.description %}<div class="subline">
+                        {% if FORUM_TEXT_MARKUP_RENDER_TEMPLATE %}
+                            {% include FORUM_TEXT_MARKUP_RENDER_TEMPLATE with content=category.description %}
+                        {% else %}
+                            {{ post.text|linebreaks }}
+                        {% endif %}
+                    </div>{% endif %}
                     
                     {% if category.num_threads > 0 %}
                     <div class="row">

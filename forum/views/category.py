@@ -25,6 +25,14 @@ class CategoryIndexView(LoginRequiredMixin, SimpleListView):
     template_name = 'forum/category_index.html'
     queryset = Category.objects.filter(visible=True).annotate(num_threads=Count('thread')).order_by('order', 'title')
     paginate_by = settings.FORUM_CATEGORY_INDEX_PAGINATE
+    
+    def get_context_data(self, **kwargs):
+        context = super(CategoryIndexView, self).get_context_data(**kwargs)
+        context.update({
+            'FORUM_TEXT_FIELD_JS_TEMPLATE': settings.FORUM_TEXT_FIELD_JS_TEMPLATE,
+            'FORUM_TEXT_MARKUP_RENDER_TEMPLATE': settings.FORUM_TEXT_MARKUP_RENDER_TEMPLATE,
+        })
+        return context
 
 
 class CategoryDetailsView(LoginRequiredMixin, ThreadQuerysetFiltersMixin, SimpleListView):
@@ -61,6 +69,14 @@ class CategoryCreateView(PermissionRequiredMixin, generic.CreateView):
 
     def get_success_url(self):
         return self.object.get_absolute_url()
+    
+    def get_context_data(self, **kwargs):
+        context = super(CategoryCreateView, self).get_context_data(**kwargs)
+        context.update({
+            'FORUM_TEXT_FIELD_JS_TEMPLATE': settings.FORUM_TEXT_FIELD_JS_TEMPLATE,
+            'FORUM_TEXT_MARKUP_RENDER_TEMPLATE': settings.FORUM_TEXT_MARKUP_RENDER_TEMPLATE,
+        })
+        return context
 
 class CategoryEditView(PerObjectPermissionRequiredMixin, generic.UpdateView):
     """
@@ -77,3 +93,11 @@ class CategoryEditView(PerObjectPermissionRequiredMixin, generic.UpdateView):
 
     def get_success_url(self):
         return self.object.get_absolute_url()
+    
+    def get_context_data(self, **kwargs):
+        context = super(CategoryEditView, self).get_context_data(**kwargs)
+        context.update({
+            'FORUM_TEXT_FIELD_JS_TEMPLATE': settings.FORUM_TEXT_FIELD_JS_TEMPLATE,
+            'FORUM_TEXT_MARKUP_RENDER_TEMPLATE': settings.FORUM_TEXT_MARKUP_RENDER_TEMPLATE,
+        })
+        return context

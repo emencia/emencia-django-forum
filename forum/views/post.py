@@ -54,6 +54,8 @@ class PostEditView(ModeratorRequiredMixin, generic.UpdateView):
     def get_context_data(self, **kwargs):
         context = super(PostEditView, self).get_context_data(**kwargs)
         context.update({
+            'FORUM_TEXT_FIELD_JS_TEMPLATE': settings.FORUM_TEXT_FIELD_JS_TEMPLATE,
+            'FORUM_TEXT_MARKUP_RENDER_TEMPLATE': settings.FORUM_TEXT_MARKUP_RENDER_TEMPLATE,
             'category_instance': self.category_instance,
             'thread_instance': self.object.thread,
         })
@@ -64,7 +66,7 @@ class PostEditView(ModeratorRequiredMixin, generic.UpdateView):
 
 class PostDeleteView(ModeratorRequiredMixin, generic.UpdateView):
     """
-    Message 'direct to delete' view, without any confirm
+    Message delete view, without any confirm
     """
     model = Post
     form_class = PostDeleteForm
@@ -82,6 +84,8 @@ class PostDeleteView(ModeratorRequiredMixin, generic.UpdateView):
     def get_context_data(self, **kwargs):
         context = super(PostDeleteView, self).get_context_data(**kwargs)
         context.update({
+            'FORUM_TEXT_FIELD_JS_TEMPLATE': settings.FORUM_TEXT_FIELD_JS_TEMPLATE,
+            'FORUM_TEXT_MARKUP_RENDER_TEMPLATE': settings.FORUM_TEXT_MARKUP_RENDER_TEMPLATE,
             'category_instance': self.category_instance,
             'thread_instance': self.object.thread,
             'post_instance': self.object,
