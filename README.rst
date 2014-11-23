@@ -46,7 +46,7 @@ Optionnally
 -----------
 
 * `South`_ to perform database migrations for next releases;
-* If you want to use the shipped :ref:`text-markup-section` integration :
+* If you want to use the shipped "Text markup" integration :
 
     * `rstview`_ >= 0.2;
     * `Django-CodeMirror`_ >= 0.9.7;
