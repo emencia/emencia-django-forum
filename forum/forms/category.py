@@ -7,8 +7,8 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.template.defaultfilters import slugify
 
-from forum.forms import get_form_helper, CrispyFormMixin
-
+from forum.forms import CrispyFormMixin
+from forum.utils.imports import safe_import_module
 from forum.models import Category, Thread
 
 class CategoryForm(CrispyFormMixin, forms.ModelForm):
@@ -22,7 +22,7 @@ class CategoryForm(CrispyFormMixin, forms.ModelForm):
         super(forms.ModelForm, self).__init__(*args, **kwargs)
         
         # Set the form field for Category.description
-        field_helper = get_form_helper(settings.FORUM_TEXT_FIELD_HELPER_PATH)
+        field_helper = safe_import_module(settings.FORUM_TEXT_FIELD_HELPER_PATH)
         if field_helper is not None:
             self.fields['description'] = field_helper(self, **{'label':_('description'), 'required':True})
 
@@ -31,7 +31,7 @@ class CategoryForm(CrispyFormMixin, forms.ModelForm):
         Text content validation
         """
         description = self.cleaned_data.get("description")
-        validation_helper = get_form_helper(settings.FORUM_TEXT_VALIDATOR_HELPER_PATH)
+        validation_helper = safe_import_module(settings.FORUM_TEXT_VALIDATOR_HELPER_PATH)
         if validation_helper is not None:
             return validation_helper(self, description)
         else:

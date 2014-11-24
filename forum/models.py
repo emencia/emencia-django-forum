@@ -8,7 +8,7 @@ import django.dispatch
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now as tz_now
 
-from forum.forms import get_form_helper
+from forum.utils.imports import safe_import_module
 
 class Category(models.Model):
     """
@@ -202,7 +202,7 @@ class Post(models.Model):
 new_message_posted_signal = django.dispatch.Signal(providing_args=["post_instance","threadwatchs"])
 
 # Trying to import signal receiver callable
-message_post_receiver = get_form_helper(settings.FORUM_NEW_POST_SIGNAL)
+message_post_receiver = safe_import_module(settings.FORUM_NEW_POST_SIGNAL)
 
 # Connecting signal to the receiver if any
 if message_post_receiver:

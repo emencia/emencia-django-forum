@@ -55,6 +55,7 @@ class ThreadDetailsView(LoginRequiredMixin, UserFormKwargsMixin, ListAppendView)
             'FORUM_OWNER_MESSAGE_CAN_EDIT': settings.FORUM_OWNER_MESSAGE_CAN_EDIT,
             'FORUM_TEXT_FIELD_JS_TEMPLATE': settings.FORUM_TEXT_FIELD_JS_TEMPLATE,
             'FORUM_TEXT_MARKUP_RENDER_TEMPLATE': settings.FORUM_TEXT_MARKUP_RENDER_TEMPLATE,
+            'FORUM_AUTHOR_VCARD_TEMPLATE': settings.FORUM_AUTHOR_VCARD_TEMPLATE,
             'category_instance': self.category_instance,
             'thread_instance': self.thread_instance,
         })
@@ -86,16 +87,18 @@ class ThreadDetailsView(LoginRequiredMixin, UserFormKwargsMixin, ListAppendView)
         return resp
 
 
-class ThreadCreateView(LoginRequiredMixin, UserFormKwargsMixin, generic.CreateView):
+class ThreadCreateView(LoginRequiredMixin, UserFormKwargsMixin, generic.CreateView, ModeratorRequiredMixin):
     """
     Thread create view is available for anyone
+    
+    Inherit from ``guardian.mixins.ModeratorRequiredMixin`` at the top right 
+    of the class, so it does not use it does not trigger its ``dispatch`` override.
     """
     model = Thread
     form_class = ThreadCreateForm
     template_name = 'forum/thread_form.html'
-    #permission_required = 'forum.add_category'
     raise_exception = True
-    
+
     def get_category(self):
         return get_object_or_404(Category, slug=self.kwargs['category_slug'], visible=True)
     
@@ -106,6 +109,13 @@ class ThreadCreateView(LoginRequiredMixin, UserFormKwargsMixin, generic.CreateVi
     def post(self, *args, **kwargs):
         self.category_instance = self.get_category()
         return super(ThreadCreateView, self).post(*args, **kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super(ThreadCreateView, self).get_form_kwargs()
+        # check moderator perms
+        if self.has_moderator_permissions(self.request, self.category_instance, self.object):
+            kwargs.update({'for_moderator': True})
+        return kwargs
     
     def get_context_data(self, **kwargs):
         context = super(ThreadCreateView, self).get_context_data(**kwargs)
@@ -145,6 +155,13 @@ class ThreadEditView(ModeratorRequiredMixin, UserFormKwargsMixin, generic.Update
             'category_instance': self.object.category,
         })
         return context
+
+    def get_form_kwargs(self):
+        kwargs = super(ThreadEditView, self).get_form_kwargs()
+        # don't check anything, if the user is granted to access this view, it 
+        # have the rights to have the full moderator form
+        kwargs.update({'for_moderator': True})
+        return kwargs
 
     def check_permissions(self, request):
         """

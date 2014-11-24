@@ -53,3 +53,7 @@ FORUM_TEXT_MARKUP_RENDER_TEMPLATE = None # Default, just a CharField
 # Template to init some Javascript for text in forms
 FORUM_TEXT_FIELD_JS_TEMPLATE = None # Default, no JS template
 #FORUM_TEXT_FIELD_JS_TEMPLATE = "forum/_text_field_djangocodemirror_js.html" # Use DjangoCodeMirror
+
+# Template to display author infos in thread's post list
+FORUM_AUTHOR_VCARD_TEMPLATE = None # Default, only display the author username
+#FORUM_AUTHOR_VCARD_TEMPLATE = "forum/_author_vcard.html" # Use Gravatar

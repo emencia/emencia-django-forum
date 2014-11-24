@@ -50,12 +50,12 @@ When a new message is posted on a thread, all users that have subscribed to the 
 
 ``settings.FORUM_EMAIL_SENDER`` will be used to send emails if defined, else ``settings.DEFAULT_FROM_EMAIL`` will be used instead.
 
-You can change the email subject and content templates used to build the emails :
+You can change the email subject and content templates used to build the emails:
 
 * ``forum/threadwatch_email_subject.txt`` for the subject;
 * ``forum/threadwatch_email_content.txt`` for the content;
 
-These templates receive a context with some variables :
+These templates receive a context with some variables:
 
 * ``SITE`` : the current Site (from the Django "sites" framework);
 * ``thread_instance`` : the thread instance where the message has been posted;
@@ -73,13 +73,13 @@ Default behavior is to use ``forum.signals.new_message_posted_receiver`` that us
 
 However if you need to have your own receiver, just define the Python path to it, remember that it should be a callable respecting the defined ``kwargs`` and avoid to import Forum models in your code as it will make a circular import error.
 
-An example in your settings to use your own receiver :
+An example in your settings to use your own receiver:
 
 .. sourcecode:: python
 
     FORUM_NEW_POST_SIGNAL = 'myproject.signals.mycallback'
 
-And a receiver example :
+And a receiver example:
 
 .. sourcecode:: python
 

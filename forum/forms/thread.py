@@ -6,45 +6,46 @@ from django.conf import settings
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from forum.forms import get_form_helper, CrispyFormMixin
-
+from forum.forms import CrispyFormMixin
+from forum.utils.imports import safe_import_module
 from forum.models import Thread
-from forum.forms.post import PostCreateForm
 
 class ThreadCreateForm(CrispyFormMixin, forms.ModelForm):
     """
     Thread's create form
     """
     crispy_form_helper_path = 'forum.forms.crispies.thread_helper'
+    crispy_form_helper_kwargs = {}
     
     text = forms.CharField(label=_('Message'), required=True, widget=forms.Textarea(attrs={'cols':'50'}))
     threadwatch = forms.BooleanField(label=_("Watch this thread"), initial=True, required=False, help_text=_("You will receive an email notification for each new post in this thread. You can disable it in the thread detail if needed."))
     
     def __init__(self, *args, **kwargs):
         self.author = kwargs.pop("user", None)
+        self.form_for_moderator = kwargs.pop("for_moderator", False)
+        
+        # Hide some managers only fields from the crispy layout
+        self.crispy_form_helper_kwargs['for_moderator'] = self.form_for_moderator
         
         super(ThreadCreateForm, self).__init__(*args, **kwargs)
         super(forms.ModelForm, self).__init__(*args, **kwargs)
         
         # Set the form field for Post.text
-        field_helper = get_form_helper(settings.FORUM_TEXT_FIELD_HELPER_PATH)
+        field_helper = safe_import_module(settings.FORUM_TEXT_FIELD_HELPER_PATH)
         if field_helper is not None:
             self.fields['text'] = field_helper(self, **{'label':_('message'), 'required':True})
         
-        #postform = PostCreateForm()
-        
-        ## Vire les champs manipulables uniquement par les admins
-        # TODO: Layout need to be more flexible to re-enable this
-        #for k in ('closed','sticky','announce','visible'):
-            #if not self.author.is_staff:
-                #del self.fields[k]
+        # Remove some managers only fields from the form
+        if not self.form_for_moderator:
+            for k in ('closed','sticky','announce','visible'):
+                del self.fields[k]
 
     def clean_text(self):
         """
         Text content validation
         """
         text = self.cleaned_data.get("text")
-        validation_helper = get_form_helper(settings.FORUM_TEXT_VALIDATOR_HELPER_PATH)
+        validation_helper = safe_import_module(settings.FORUM_TEXT_VALIDATOR_HELPER_PATH)
         if validation_helper is not None:
             return validation_helper(self, text)
         else:
@@ -64,8 +65,6 @@ class ThreadCreateForm(CrispyFormMixin, forms.ModelForm):
         post_instance = thread_instance.post_set.create(
             author=self.author,
             text=self.cleaned_data["text"],
-            #attachment_file=self.cleaned_data["attachment_file"],
-            #attachment_title=self.cleaned_data["attachment_title"],
         )
         
         if self.cleaned_data.get("threadwatch", False):
@@ -81,14 +80,14 @@ class ThreadEditForm(ThreadCreateForm):
     """
     Thread's edit form
     """
-    crispy_form_helper_path = 'forum.forms.crispies.thread_edit_helper'
+    crispy_form_helper_kwargs = {
+        'edit_mode': True,
+    }
     
     def __init__(self, *args, **kwargs):
         super(ThreadEditForm, self).__init__(*args, **kwargs)
         
         del self.fields['text']
-        #del self.fields['attachment_title']
-        #del self.fields['attachment_file']
         del self.fields['threadwatch']
     
     def save(self):

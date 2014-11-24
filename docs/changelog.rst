@@ -3,13 +3,20 @@
 Changelog
 =========
 
+Version 0.7.1 - 2014/11/23
+**************************
+
+* Add an optional setting and template to display author's Gravatar in thread's post list using ``django-gravatar2>=1.1.4``;
+* Refactoring how we use the crispies within forms;
+* Hide some fields for non moderator in thread forms;
+
 Version 0.7 - 2014/11/23
 ************************
 
 * Remove **rstview** from required dependancy;
 * Changing dependancy ``django-crispy-forms >= 1.4.0`` to ``crispy-forms-foundation>=0.3.6`` because we directly this one;
 * Changing forms, views and templates to use optional :ref:`text-markup-section`;
-* Add shipped stuff (not enabled by default) to use **Django-CodeMirrore editor** and **RestructuredText** with the :ref:`text-markup-section` system;
+* Add shipped stuff (not enabled by default) to use **Django-CodeMirror editor** and **RestructuredText** with the :ref:`text-markup-section` system;
 * Moving documentation from README to the ``docs/`` directory, improve it and publish it on `Read the docs <https://readthedocs.org/>`_;
 * Update French translation catalog for minor fix;
 

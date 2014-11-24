@@ -54,7 +54,7 @@ def category_helper(form_tag=True):
 
 
 
-def thread_helper(form_tag=True, edit_mode=False):
+def thread_helper(form_tag=True, edit_mode=False, for_moderator=False):
     """
     Thread's form layout helper
     """
@@ -83,22 +83,23 @@ def thread_helper(form_tag=True, edit_mode=False):
             ),
         )
     
-    fieldsets.append(
-        Row(
-            Column(
-                'sticky',
-                css_class='small-12 medium-4'
+    if for_moderator:
+        fieldsets.append(
+            Row(
+                Column(
+                    'sticky',
+                    css_class='small-12 medium-4'
+                ),
+                Column(
+                    'announce',
+                    css_class='small-12 medium-4'
+                ),
+                Column(
+                    'closed',
+                    css_class='small-12 medium-4'
+                ),
             ),
-            Column(
-                'announce',
-                css_class='small-12 medium-4'
-            ),
-            Column(
-                'closed',
-                css_class='small-12 medium-4'
-            ),
-        ),
-    )
+        )
     
     # First message is not in edit form
     if not edit_mode:
@@ -111,14 +112,15 @@ def thread_helper(form_tag=True, edit_mode=False):
             ),
         )
     
-    fieldsets.append(
-        Row(
-            Column(
-                'visible',
-                css_class='small-12'
+    if for_moderator:
+        fieldsets.append(
+            Row(
+                Column(
+                    'visible',
+                    css_class='small-12'
+                ),
             ),
-        ),
-    )
+        )
     
     # Threadwatch option is not in edit form
     if not edit_mode:
@@ -141,10 +143,6 @@ def thread_helper(form_tag=True, edit_mode=False):
     helper.layout = Layout(*fieldsets)
     
     return helper
-
-def thread_edit_helper(form_tag=True):
-    return thread_helper(form_tag=form_tag, edit_mode=True)
-
 
 
 def post_helper(form_tag=True, edit_mode=False):

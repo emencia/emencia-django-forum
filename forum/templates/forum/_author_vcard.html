@@ -1,0 +1,4 @@
+{% load gravatar %}{% spaceless %}
+
+<p><img src="{% gravatar_url post.author.email 125 %}" alt="{{ post.author }}"></p>
+<p>{{ post.author }} <a href="#forum-post-{{ post.id }}">#{{ post.id }}</a></p>{% endspaceless %}
