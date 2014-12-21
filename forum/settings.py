@@ -48,12 +48,12 @@ FORUM_TEXT_VALIDATOR_HELPER_PATH = None # Default, no markup validation
 
 # Text markup renderer
 FORUM_TEXT_MARKUP_RENDER_TEMPLATE = None # Default, just a CharField
-#FORUM_TEXT_MARKUP_RENDER_TEMPLATE = "forum/_text_markup_render.html" # Use Rstview renderer
+#FORUM_TEXT_MARKUP_RENDER_TEMPLATE = "forum/markup/_text_markup_render.html" # Use Rstview renderer
 
 # Template to init some Javascript for text in forms
 FORUM_TEXT_FIELD_JS_TEMPLATE = None # Default, no JS template
-#FORUM_TEXT_FIELD_JS_TEMPLATE = "forum/_text_field_djangocodemirror_js.html" # Use DjangoCodeMirror
+#FORUM_TEXT_FIELD_JS_TEMPLATE = "forum/markup/_text_field_djangocodemirror_js.html" # Use DjangoCodeMirror
 
 # Template to display author infos in thread's post list
 FORUM_AUTHOR_VCARD_TEMPLATE = None # Default, only display the author username
-#FORUM_AUTHOR_VCARD_TEMPLATE = "forum/_author_vcard.html" # Use Gravatar
+#FORUM_AUTHOR_VCARD_TEMPLATE = "forum/author/_vcard.html" # Use Gravatar

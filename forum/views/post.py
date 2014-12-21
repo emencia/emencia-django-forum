@@ -35,7 +35,7 @@ class PostEditView(ModeratorRequiredMixin, generic.UpdateView):
     """
     model = Post
     form_class = PostEditForm
-    template_name = 'forum/post_form.html'
+    template_name = 'forum/post/form.html'
     context_object_name = "post_instance"
     
     def get_object(self, *args, **kwargs):
@@ -70,7 +70,7 @@ class PostDeleteView(ModeratorRequiredMixin, generic.UpdateView):
     """
     model = Post
     form_class = PostDeleteForm
-    template_name = 'forum/post_delete_form.html'
+    template_name = 'forum/post/delete_form.html'
     
     def get_object(self, *args, **kwargs):
         self.category_instance = get_object_or_404(Category, slug=self.kwargs['category_slug'])

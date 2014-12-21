@@ -22,7 +22,7 @@ class CategoryIndexView(LoginRequiredMixin, SimpleListView):
     """
     Category list view
     """
-    template_name = 'forum/category_index.html'
+    template_name = 'forum/category/index.html'
     queryset = Category.objects.filter(visible=True).annotate(num_threads=Count('thread')).order_by('order', 'title')
     paginate_by = settings.FORUM_CATEGORY_INDEX_PAGINATE
     
@@ -39,7 +39,7 @@ class CategoryDetailsView(LoginRequiredMixin, ThreadQuerysetFiltersMixin, Simple
     """
     Category detail view with its thread list
     """
-    template_name = 'forum/category_details.html'
+    template_name = 'forum/category/details.html'
     paginate_by = settings.FORUM_CATEGORY_THREAD_PAGINATE
     
     def get_queryset(self, *args, **kwargs):
@@ -63,7 +63,7 @@ class CategoryCreateView(PermissionRequiredMixin, generic.CreateView):
     """
     model = Category
     form_class = CategoryForm
-    template_name = 'forum/category_form.html'
+    template_name = 'forum/category/form.html'
     permission_required = 'forum.add_category'
     raise_exception = True
 
@@ -86,7 +86,7 @@ class CategoryEditView(PerObjectPermissionRequiredMixin, generic.UpdateView):
     """
     model = Category
     form_class = CategoryForm
-    template_name = 'forum/category_form.html'
+    template_name = 'forum/category/form.html'
     context_object_name = "category_instance"
     permission_required = 'forum.moderate_category'
     raise_exception = True

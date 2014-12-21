@@ -1,0 +1,29 @@
+@import "compass/css3";
+
+/* 
+ * Forum stylesheet
+ */
+.forum{
+    
+    .categories-list{
+        .category{
+            &>.inner{
+                border: $panel-border-size $panel-border-style scale-color($panel-bg, $lightness: $panel-function-factor);
+                @include border-radius($global-radius);
+                
+                &>*{
+                    margin: 0;
+                    padding: $panel-padding;
+                }
+                
+                &>h3,&>h4,&>h5,&>h6{
+                    margin: 0;
+                    background: $panel-bg;
+                    border-bottom: $panel-border-size $panel-border-style scale-color($panel-bg, $lightness: $panel-function-factor);
+                    @include side-radius(top, $global-radius);
+                }
+            }
+        }
+    }
+    
+}

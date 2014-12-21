@@ -3,6 +3,13 @@
 Changelog
 =========
 
+Version 0.7.2 - 2014/12/21
+**************************
+
+* Refactoring templates organization;
+* Embed default SCSS sources files and its *compiled* CSS;
+* Embed used webfont;
+
 Version 0.7.1 - 2014/11/23
 **************************
 

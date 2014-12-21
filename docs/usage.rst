@@ -52,8 +52,8 @@ When a new message is posted on a thread, all users that have subscribed to the 
 
 You can change the email subject and content templates used to build the emails:
 
-* ``forum/threadwatch_email_subject.txt`` for the subject;
-* ``forum/threadwatch_email_content.txt`` for the content;
+* ``forum/threadwatch/email_subject.txt`` for the subject;
+* ``forum/threadwatch/email_content.txt`` for the content;
 
 These templates receive a context with some variables:
 

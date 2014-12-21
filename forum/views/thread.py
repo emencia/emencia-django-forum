@@ -22,7 +22,7 @@ class LastThreadViews(LoginRequiredMixin, ThreadQuerysetFiltersMixin, SimpleList
     """
     Last modified thread view
     """
-    template_name = 'forum/last_threads.html'
+    template_name = 'forum/thread/lasts.html'
     queryset = Thread.objects.all()
     paginate_by = settings.FORUM_LAST_THREAD_PAGINATE
 
@@ -33,7 +33,7 @@ class ThreadDetailsView(LoginRequiredMixin, UserFormKwargsMixin, ListAppendView)
     """
     model = Post
     form_class = PostCreateForm
-    template_name = 'forum/thread_details.html'
+    template_name = 'forum/thread/details.html'
     paginate_by = settings.FORUM_THREAD_DETAIL_PAGINATE
     context_object_name = 'object_list'
     
@@ -96,7 +96,7 @@ class ThreadCreateView(LoginRequiredMixin, UserFormKwargsMixin, generic.CreateVi
     """
     model = Thread
     form_class = ThreadCreateForm
-    template_name = 'forum/thread_form.html'
+    template_name = 'forum/thread/form.html'
     raise_exception = True
 
     def get_category(self):
@@ -142,7 +142,7 @@ class ThreadEditView(ModeratorRequiredMixin, UserFormKwargsMixin, generic.Update
     """
     model = Thread
     form_class = ThreadEditForm
-    template_name = 'forum/thread_form.html'
+    template_name = 'forum/thread/form.html'
     context_object_name = "thread_instance"
     raise_exception = True
     

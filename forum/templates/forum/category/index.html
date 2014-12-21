@@ -6,7 +6,7 @@
         <dl class="sub-nav right">
             <dt class="hide">{% blocktrans %}Actions{% endblocktrans %}:</dt>
             <dd><a href="{% url 'forum:thread-recent' %}"><i class="icon-clock"></i> {% blocktrans %}Last threads{% endblocktrans %}</a></dd>
-            {% if user.is_staff %}<dd><a href="{% url 'forum:category-create' %}"><i class="icon-add-circle"></i> {% blocktrans %}New category{% endblocktrans %}</a></dd>{% endif %}
+            {% if user.is_staff %}<dd><a href="{% url 'forum:category-create' %}"><i class="icon-plus-circle"></i> {% blocktrans %}New category{% endblocktrans %}</a></dd>{% endif %}
         </dl>
     </div>
     

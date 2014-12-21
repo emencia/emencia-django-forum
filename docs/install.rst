@@ -122,7 +122,7 @@ This can be done with the following settings:
 .. sourcecode:: python
 
     # Text markup renderer
-    FORUM_TEXT_MARKUP_RENDER = None # Default, just a CharField
+    FORUM_TEXT_MARKUP_RENDER = None # Default, no renderer
 
     # Field helper for text in forms
     FORUM_TEXT_FIELD_HELPER_PATH = None # Default, just a CharField
@@ -157,7 +157,7 @@ Explanations
     * ``form_instance`` is the Form instance where it will be used from;
     * ``content`` is the value to validate;
     
-    This should return a string value.
+    Act like a Django form field cleaner method, this should return the cleaned value and eventually raise a validation error if needed.
     
 **FORUM_TEXT_MARKUP_RENDER_TEMPLATE**
 
@@ -183,10 +183,10 @@ There are the settings to use the shipped Markup syntax renderer and editor, dis
     FORUM_TEXT_VALIDATOR_HELPER_PATH = "forum.markup.clean_restructuredtext" # Validation for RST syntax (with Rstview)
 
     # Template to init some Javascript for text in forms
-    FORUM_TEXT_FIELD_JS_TEMPLATE = "forum/_text_field_djangocodemirror_js.html" # Use DjangoCodeMirror
+    FORUM_TEXT_FIELD_JS_TEMPLATE = "forum/markup/_text_field_djangocodemirror_js.html" # Use DjangoCodeMirror
 
     # Text markup renderer
-    FORUM_TEXT_MARKUP_RENDER_TEMPLATE = "forum/_text_markup_render.html" # Use Rstview renderer
+    FORUM_TEXT_MARKUP_RENDER_TEMPLATE = "forum/markup/_text_markup_render.html" # Use Rstview renderer
 
 Read their source code to see how they work in detail.
 
@@ -204,7 +204,7 @@ To use it, just add this setting to your settings file:
 .. sourcecode:: python
 
     # Template to display author infos in thread's post list
-    FORUM_AUTHOR_VCARD_TEMPLATE = "forum/_author_vcard.html" # Use Gravatar
+    FORUM_AUTHOR_VCARD_TEMPLATE = "forum/author/_vcard.html" # Use Gravatar
 
 
 .. warning:: Before enabling these settings you must install `django-gravatar2`_, see optional requirements to have the right versions to install.

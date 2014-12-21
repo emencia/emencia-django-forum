@@ -7,12 +7,12 @@
     <div class="clearfix">
         <dl class="sub-nav right">
             <dt class="hide">{% blocktrans %}Actions{% endblocktrans %}:</dt>
-            <dd><a href="{% url 'forum:thread-create' category_instance.slug %}"><i class="icon-add-circle"></i> {% blocktrans %}New thread{% endblocktrans %}</a></dd>
+            <dd><a href="{% url 'forum:thread-create' category_instance.slug %}"><i class="icon-plus-circle"></i> {% blocktrans %}New thread{% endblocktrans %}</a></dd>
             {% if "moderate_category" in category_perms %}<dd><a href="{% url 'forum:category-edit' category_instance.slug %}"><i class="icon-edit"></i> {% blocktrans %}Edit category{% endblocktrans %}</a></dd>{% endif %}
         </dl>
     </div>
     
     {% with object_list as thread_list %}
-    {% include "forum/generic_thread_index.html" %}
+    {% include "forum/thread/generic_index.html" %}
     {% endwith %}
 {% endblock %}
