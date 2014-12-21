@@ -3,3 +3,4 @@ include LICENCE.txt
 include README.rst
 recursive-include forum/templates *
 recursive-include forum/locale *
+recursive-include forum/static *
