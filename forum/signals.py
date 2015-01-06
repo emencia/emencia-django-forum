@@ -19,12 +19,10 @@ def new_message_posted_receiver(sender, **kwargs):
         'thread_instance': post_instance.thread,
         'post_instance': post_instance,
     }
-    subject = ''.join(render_to_string('forum/threadwatch_email_subject.txt', context).splitlines())
-    content = render_to_string('forum/threadwatch_email_content.txt', context)
+    subject = ''.join(render_to_string('forum/threadwatch/email_subject.txt', context).splitlines())
+    content = render_to_string('forum/threadwatch/email_content.txt', context)
     
     for item in threadwatchs:
-        #print "*", item, "for", item.owner
-        # (subject, message, from_email, recipient_list)
         emails_datas.append((
             subject,
             content,
