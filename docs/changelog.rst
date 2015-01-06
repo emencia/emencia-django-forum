@@ -3,6 +3,11 @@
 Changelog
 =========
 
+Version 0.7.4 - 2015/01/06
+**************************
+
+* Fix bad template names in threadwatch sending;
+
 Version 0.7.3 - 2014/12/21
 **************************
 
