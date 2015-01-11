@@ -25,7 +25,7 @@ FORUM_EMAIL_SENDER = None
 # case, just define all parser setting in 'RSTVIEW_PARSER_FILTER_SETTINGS' in 
 # the same settings file.
 RSTVIEW_PARSER_FILTER_SETTINGS = {
-    'forum_message':{
+    'forum':{
         'initial_header_level': 5,
         'file_insertion_enabled': False,
         'raw_enabled': False,
