@@ -1,5 +1,7 @@
 {% extends "skeleton.html" %}
-{% load autobreadcrumb %}
+{% load i18n autobreadcrumb %}
+
+{% block head_title %}{% trans "Datebook" %}{% comment %} - {% current_title_from_breadcrumbs %}{% endcomment %}{% endblock %}
 
 {% block menu_active_link_forum %} class="active"{% endblock %}
 
