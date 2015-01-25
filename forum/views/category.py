@@ -89,6 +89,7 @@ class CategoryEditView(PerObjectPermissionRequiredMixin, generic.UpdateView):
     template_name = 'forum/category/form.html'
     context_object_name = "category_instance"
     permission_required = 'forum.moderate_category'
+    accept_global_perms = True
     raise_exception = True
 
     def get_success_url(self):

@@ -8,7 +8,7 @@
         <dl class="sub-nav right">
             <dt class="hide">{% blocktrans %}Actions{% endblocktrans %}:</dt>
             <dd><a href="{% url 'forum:thread-create' category_instance.slug %}"><i class="icon-plus-circle"></i> {% blocktrans %}New thread{% endblocktrans %}</a></dd>
-            {% if "moderate_category" in category_perms %}<dd><a href="{% url 'forum:category-edit' category_instance.slug %}"><i class="icon-edit"></i> {% blocktrans %}Edit category{% endblocktrans %}</a></dd>{% endif %}
+            {% if "moderate_category" in category_perms or 'forum.moderate_category' in perms %}<dd><a href="{% url 'forum:category-edit' category_instance.slug %}"><i class="icon-edit"></i> {% blocktrans %}Edit category{% endblocktrans %}</a></dd>{% endif %}
         </dl>
     </div>
     

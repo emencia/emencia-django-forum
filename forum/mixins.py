@@ -17,6 +17,7 @@ class ModeratorRequiredMixin(PerObjectPermissionRequiredMixin):
     
     If you don't do this ``ModeratorRequiredMixin.check_moderator_permissions`` will not be used by default.
     """
+    accept_global_perms = True
     permission_required = ['forum.moderate_category', 'forum.moderate_thread']
     
     def check_moderator_permissions(self, request, category_instance, thread_instance):
