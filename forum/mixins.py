@@ -5,22 +5,17 @@ from django.conf import settings
 from django.db.models import Count
 from django.shortcuts import render_to_response
 from django.template import RequestContext, TemplateDoesNotExist
+from django.core.exceptions import PermissionDenied
 
-from guardian.conf import settings as guardian_settings
-from guardian.mixins import PermissionRequiredMixin as PerObjectPermissionRequiredMixin
+from braces.views import PermissionRequiredMixin, MultiplePermissionsRequiredMixin
 
-class ModeratorRequiredMixin(PerObjectPermissionRequiredMixin):
+class ModeratorCheckMixin(object):
     """
-    Mixin to check for moderator permission on category or thread (if not present for category)
-    
-    Inherit from ``guardian.mixins.PermissionRequiredMixin`` so you'll need to override the ``check_permissions`` method to add usage of ``ModeratorRequiredMixin.check_moderator_permissions`` or to remove the default ``PermissionRequiredMixin.check_permissions`` behavior.
-    
-    If you don't do this ``ModeratorRequiredMixin.check_moderator_permissions`` will not be used by default.
+    Mixin to include checking for moderator permission on category or thread
     """
-    accept_global_perms = True
     permission_required = ['forum.moderate_category', 'forum.moderate_thread']
     
-    def check_moderator_permissions(self, request, category_instance, thread_instance):
+    def check_moderator_permissions(self, request):
         """
         Check if user have global or per object permission (on category 
         instance and on thread instance), finally return a 403 response if no 
@@ -29,41 +24,28 @@ class ModeratorRequiredMixin(PerObjectPermissionRequiredMixin):
         If a permission has been finded, return False, then the dispatcher 
         should so return the "normal" response from the view.
         """
-        has_perms = self.has_moderator_permissions(request, category_instance, thread_instance)
+        has_perms = self.has_moderator_permissions(request)
         
         # Return a forbidden response if no permission has been finded
         if not has_perms:
-            try:
-                response = render_to_response(getattr(guardian_settings, 'TEMPLATE_403', '403.html'), {}, RequestContext(request))
-                response.status_code = 403
-                return response
-            except TemplateDoesNotExist as e:
-                if settings.DEBUG:
-                    raise e
+            raise PermissionDenied
         
         return False
     
-    def has_moderator_permissions(self, request, category_instance, thread_instance):
+    def has_moderator_permissions(self, request):
         """
         Find if user have global or per object permission firstly on category instance, 
         if not then on thread instance
         """
-        perms = self.get_required_permissions(request)
+        return any(request.user.has_perm(perm) for perm in self.permission_required)
 
-        # global perms check (from "ModeratorRequiredMixin.permission_required")
-        if any(request.user.has_perm(perm) for perm in perms):
-            return "global"
-        
-        # Try Category per-object permission
-        if any(request.user.has_perm(perm, category_instance) for perm in perms):
-            return "per-object.category"
-            
-        # Try Thread per-object permission
-        if any(request.user.has_perm(perm, thread_instance) for perm in perms):
-            return "per-object.thread"
-        
-        # no permission at all has been finded
-        return False
+
+class ModeratorRequiredMixin(MultiplePermissionsRequiredMixin):
+    """
+    """
+    permissions = {
+        "any": ('forum.moderate_category', 'forum.moderate_thread')
+    }
 
 
 class ThreadQuerysetFiltersMixin(object):

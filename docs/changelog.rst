@@ -3,6 +3,33 @@
 Changelog
 =========
 
+Version 0.8.0 - 2015/01/25
+**************************
+
+* Totally removing ``django-guardian`` usage and dependancy. Reasons are:
+
+  * Add a new layer for managing permissions that is difficult to maintain;
+  * guardian does not play nice with global permissions and groups, we have to add more code to manage it well;
+  * Per-object permissions was a little bit out of the scope of this forum app because it's not a community oriented forum;
+
+* Cleaning documentation from ``django-guardian`` occurences;
+
+Version 0.7.5.2 - 2015/01/12
+****************************
+
+* Last try for fixing django-guardian before removing it;
+* Fix base template title;
+
+Version 0.7.5.1 - 2015/01/11
+****************************
+
+* Fix forgotten typo in parser config name;
+
+Version 0.7.5 - 2015/01/31
+**************************
+
+* Fix typo on rst parser config name in default settings;
+
 Version 0.7.4 - 2015/01/06
 **************************
 

@@ -3,7 +3,6 @@
 .. _rstview: https://github.com/sveetch/rstview
 .. _autobreadcrumbs: https://github.com/sveetch/autobreadcrumbs
 .. _django-braces: https://github.com/brack3t/django-braces/
-.. _django-guardian: https://github.com/lukaszb/django-guardian
 .. _django-crispy-forms: https://github.com/maraujop/django-crispy-forms
 .. _Django-CodeMirror: https://github.com/sveetch/djangocodemirror
 .. _RestructuredText: http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
@@ -20,7 +19,7 @@ Features
 * Have **thread watches**: users can subscribe to receive email notification for each new message in a thread;
 * Have thread **sticky mode** and **announce mode**;
 * **i18n** usage for the interface;
-* Global or **'per object' moderation** on categories, threads and messages;
+* Permissions usage for moderation on categories, threads and messages;
 * Optional **markup syntax** for messages, default is `RestructuredText`_ from docutils but you can use your own;
 * Optional **DjangoCodeMirror editor** or your own editor if you want;
 

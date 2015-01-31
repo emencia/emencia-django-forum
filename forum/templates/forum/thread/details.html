@@ -1,18 +1,15 @@
 {% extends "forum/base.html" %}
-{% load i18n crispy_forms_tags guardian_tags %}
+{% load i18n crispy_forms_tags %}
 
 {% block head_base_js %}{{ block.super }}{% if FORUM_TEXT_FIELD_JS_TEMPLATE and form.text %}
     {% include FORUM_TEXT_FIELD_JS_TEMPLATE with field=form.text %}
 {% endif %}{% endblock %}
 
 {% block forum_content %}
-    {% get_obj_perms request.user for category_instance as "category_perms" %}
-    {% get_obj_perms request.user for thread_instance as "thread_perms" %}
-
     <div class="clearfix">
         <dl class="sub-nav right">
             <dt class="hide">{% blocktrans %}Actions{% endblocktrans %}:</dt>
-            {% if "moderate_category" in category_perms or "moderate_thread" in thread_perms %}
+            {% if perms.forum.moderate_category or perms.forum.moderate_thread %}
                 <dd><a href="{% url 'forum:thread-edit' category_instance.slug thread_instance.id %}">
                     <i class="icon-edit"></i> {% blocktrans %}Edit this thread{% endblocktrans %}
                 </a></dd>
@@ -56,12 +53,12 @@
                     {% endif %}
                     <ul class="inline-list actions right">
                         <li><a class="button tiny radius" href="#reply">{% blocktrans %}Reply{% endblocktrans %} <i class="icon-plus-circle"></i></a></li>
-                        {% if FORUM_OWNER_MESSAGE_CAN_EDIT and post.author == request.user or  "moderate_category" in category_perms or "moderate_thread" in thread_perms %}
+                        {% if FORUM_OWNER_MESSAGE_CAN_EDIT and post.author == request.user or perms.forum.moderate_category or perms.forum.moderate_thread %}
                             <li><a class="button tiny radius" href="{% url 'forum:post-edit' category_instance.slug thread_instance.id post.id %}">
                                 {% blocktrans %}Edit{% endblocktrans %} <i class="icon-edit"></i>
                             </a></li>
                         {% endif %}
-                        {% if "moderate_category" in category_perms or "moderate_thread" in thread_perms %}
+                        {% if perms.forum.moderate_category or perms.forum.moderate_thread %}
                             {% if not forloop.first %}<li><a class="button tiny radius" href="{% url 'forum:post-delete' category_instance.slug thread_instance.id post.id %}">
                                 {% blocktrans %}Delete{% endblocktrans %} <i class="icon-times-circle"></i>
                             </a></li>{% endif %}

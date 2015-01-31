@@ -9,8 +9,6 @@ from django.views import generic
 
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 
-from guardian.mixins import PermissionRequiredMixin as PerObjectPermissionRequiredMixin
-
 from forum.models import Category, Thread
 
 from forum.utils.views import SimpleListView
@@ -78,18 +76,17 @@ class CategoryCreateView(PermissionRequiredMixin, generic.CreateView):
         })
         return context
 
-class CategoryEditView(PerObjectPermissionRequiredMixin, generic.UpdateView):
+class CategoryEditView(PermissionRequiredMixin, generic.UpdateView):
     """
     Category edit form view
     
-    Restricted to category moderators
+    Restricted to category moderators only
     """
     model = Category
     form_class = CategoryForm
     template_name = 'forum/category/form.html'
     context_object_name = "category_instance"
     permission_required = 'forum.moderate_category'
-    accept_global_perms = True
     raise_exception = True
 
     def get_success_url(self):

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 Markup tags
+
+TODO: To remove, markup formatting is implemented elsewhere
 """
 from django import template
 from django.utils.encoding import smart_str, force_unicode

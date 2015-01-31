@@ -21,7 +21,7 @@ Features
 * Have **thread watches**: users can subscribe to receive email notification for each new message in a thread, see :ref:`threadwatch-section`;
 * Have thread **sticky mode** and **announce mode**;
 * **i18n** usage for the interface;
-* Global or **'per object' moderation** on categories, threads and messages, see :ref:`permissions-section`;
+* Permissions usage for moderation on categories, threads and messages, see :ref:`permissions-section`;
 * Optional **markup syntax** for messages, default is `RestructuredText`_ from docutils but you can use your own, see :ref:`text-markup-section`;
 * Optional **DjangoCodeMirror editor** or your own editor if you want, see :ref:`text-markup-section`;
 

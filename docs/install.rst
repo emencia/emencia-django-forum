@@ -21,7 +21,6 @@ Requires
 * `autobreadcrumbs`_ >= 1.0;
 * `django-braces`_ >= 1.2.0,<1.4;
 * `django-crispy-forms`_ >= 1.4.0;
-* `django-guardian`_ >= 1.2.0;
 
 Optionnally
 -----------
@@ -50,7 +49,6 @@ Add it to your installed apps in settings:
     INSTALLED_APPS = (
         ...
         'autobreadcrumbs',
-        'guardian',
         'forum',
         ...
     )
@@ -62,17 +60,6 @@ Add its settings (in your project settings):
     from forum.settings import *
 
 (Also you can override some of its settings, see ``forum.settings`` for more details).
-
-Add `django-guardian`_ settings (see its doc for more details):
-
-.. sourcecode:: python
-
-    AUTHENTICATION_BACKENDS = (
-        'django.contrib.auth.backends.ModelBackend', # this is default
-        'guardian.backends.ObjectPermissionBackend',
-    )
-
-    ANONYMOUS_USER_ID = None
 
 Then register `autobreadcrumbs`_ *context processor* in settings:
 

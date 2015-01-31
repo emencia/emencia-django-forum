@@ -11,7 +11,7 @@ from django.views.generic.edit import FormMixin
 from braces.views import LoginRequiredMixin, UserFormKwargsMixin
 
 from forum.utils.views import SimpleListView, ListAppendView
-from forum.mixins import ModeratorRequiredMixin, ThreadQuerysetFiltersMixin
+from forum.mixins import ModeratorRequiredMixin, ModeratorCheckMixin, ThreadQuerysetFiltersMixin
 from forum.models import Category, Thread, Post
 
 from forum.forms.post import PostCreateForm
@@ -87,12 +87,9 @@ class ThreadDetailsView(LoginRequiredMixin, UserFormKwargsMixin, ListAppendView)
         return resp
 
 
-class ThreadCreateView(LoginRequiredMixin, UserFormKwargsMixin, generic.CreateView, ModeratorRequiredMixin):
+class ThreadCreateView(LoginRequiredMixin, UserFormKwargsMixin, ModeratorCheckMixin, generic.CreateView):
     """
-    Thread create view is available for anyone
-    
-    Inherit from ``guardian.mixins.ModeratorRequiredMixin`` at the top right 
-    of the class, so it does not use it does not trigger its ``dispatch`` override.
+    Thread create view is available for anyone but moderators have more options than non-moderator users
     """
     model = Thread
     form_class = ThreadCreateForm
@@ -113,7 +110,7 @@ class ThreadCreateView(LoginRequiredMixin, UserFormKwargsMixin, generic.CreateVi
     def get_form_kwargs(self):
         kwargs = super(ThreadCreateView, self).get_form_kwargs()
         # check moderator perms
-        if self.has_moderator_permissions(self.request, self.category_instance, self.object):
+        if self.has_moderator_permissions(self.request):
             kwargs.update({'for_moderator': True})
         return kwargs
     
@@ -138,7 +135,7 @@ class ThreadEditView(ModeratorRequiredMixin, UserFormKwargsMixin, generic.Update
     """
     Thread edit view
     
-    Restricted to moderators
+    Restricted to moderators only
     """
     model = Thread
     form_class = ThreadEditForm
@@ -163,13 +160,13 @@ class ThreadEditView(ModeratorRequiredMixin, UserFormKwargsMixin, generic.Update
         kwargs.update({'for_moderator': True})
         return kwargs
 
-    def check_permissions(self, request):
-        """
-        Check if user have global or per object moderator permissions, first on category instance, 
-        if not then on thread instance
-        """
-        thread_instance = self.get_object()
-        return self.check_moderator_permissions(request, thread_instance.category, thread_instance)
+    #def check_permissions(self, request):
+        #"""
+        #Check if user have global or per object moderator permissions, first on category instance, 
+        #if not then on thread instance
+        #"""
+        #thread_instance = self.get_object()
+        #return self.check_moderator_permissions(request, thread_instance.category, thread_instance)
 
     def get_success_url(self):
         if self.object.visible:

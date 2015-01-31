@@ -16,11 +16,11 @@ Usage
 Permissions
 ***********
 
-The forum make usage of `django-guardian`_ to manage 'per object permissions' or 'global permissions'.
+The forum make usage of Django's permissions system.
 
-Actually you need to use the Django admin and be a staff user with the right permissions for managing forum objects to add these permissions for your users.
+You'll need to use the Django admin and be a staff user with the *auth* permissions for managing these permissions for your users.
 
-And so, you can add the needed permissions globally to the whole forum within each user accounts. Or you can add a permission for a specific object its edit page using the link named *Object permissions*.
+And so, you can add the needed permissions globally to the whole forum within each user accounts.
 
 * Users with ``forum.add_category`` permissions can create categories;
 * All users can create a new thread;
@@ -29,15 +29,7 @@ And so, you can add the needed permissions globally to the whole forum within ea
 * Users with ``forum.moderate_thread`` can edit thread parameters, edit thread messages and delete thread messages. They are called *Thread moderators*;
 * Users have permission to edit their own message if ``settings.FORUM_OWNER_MESSAGE_CAN_EDIT`` is True;
 
-
 Others Category's and Thread's model permissions have no roles on frontend.
-
-Permission error response
--------------------------
-
-Permission error is rendered though a ``403.html`` template that is allready embedded within this app, you can override it in your project with adding your custom ``403.html`` template in your project templates directory.
-
-Also you can use another template name, you will have to define its name in ``settings.GUARDIAN_TEMPLATE_403`` (this is a setting from `django-guardian`_, see its documentation for more details).
 
 .. _threadwatch-section:
 

@@ -9,7 +9,7 @@ from django.views import generic
 
 from braces.views import LoginRequiredMixin
 
-from forum.mixins import ModeratorRequiredMixin
+from forum.mixins import ModeratorCheckMixin, ModeratorRequiredMixin
 
 from forum.models import Category, Post
 
@@ -27,7 +27,8 @@ class PostRedirectView(LoginRequiredMixin, generic.RedirectView):
         return post_instance.get_absolute_url()
     
 
-class PostEditView(ModeratorRequiredMixin, generic.UpdateView):
+#class PostEditView(ModeratorRequiredMixin, generic.UpdateView):
+class PostEditView(LoginRequiredMixin, ModeratorCheckMixin, generic.UpdateView):
     """
     Message edit view
     
@@ -39,6 +40,9 @@ class PostEditView(ModeratorRequiredMixin, generic.UpdateView):
     context_object_name = "post_instance"
     
     def get_object(self, *args, **kwargs):
+        """
+        Should memoize the object to avoid multiple query if get_object is used many times in the view
+        """
         self.category_instance = get_object_or_404(Category, slug=self.kwargs['category_slug'])
         return get_object_or_404(Post, thread__id=self.kwargs['thread_id'], thread__category=self.category_instance, pk=self.kwargs['post_id'])
 
@@ -49,7 +53,7 @@ class PostEditView(ModeratorRequiredMixin, generic.UpdateView):
         if settings.FORUM_OWNER_MESSAGE_CAN_EDIT and self.object.author == request.user:
             return False
             
-        return self.check_moderator_permissions(request, self.category_instance, self.object.thread)
+        return self.check_moderator_permissions(request)
         
     def get_context_data(self, **kwargs):
         context = super(PostEditView, self).get_context_data(**kwargs)
@@ -63,10 +67,21 @@ class PostEditView(ModeratorRequiredMixin, generic.UpdateView):
 
     def get_success_url(self):
         return self.object.get_absolute_url()
+    
+    def get(self, *args, **kwargs):
+        self.check_permissions(self.request)
+        return super(PostEditView, self).get(*args, **kwargs)
+    
+    def post(self, *args, **kwargs):
+        self.check_permissions(self.request)
+        return super(PostEditView, self).post(*args, **kwargs)
 
-class PostDeleteView(ModeratorRequiredMixin, generic.UpdateView):
+#class PostDeleteView(ModeratorRequiredMixin, generic.UpdateView):
+class PostDeleteView(LoginRequiredMixin, ModeratorRequiredMixin, generic.UpdateView):
     """
     Message delete view, without any confirm
+    
+    Restricted to moderators only
     """
     model = Post
     form_class = PostDeleteForm
@@ -75,11 +90,6 @@ class PostDeleteView(ModeratorRequiredMixin, generic.UpdateView):
     def get_object(self, *args, **kwargs):
         self.category_instance = get_object_or_404(Category, slug=self.kwargs['category_slug'])
         return get_object_or_404(Post, thread__id=self.kwargs['thread_id'], thread__category=self.category_instance, pk=self.kwargs['post_id'])
-
-    def check_permissions(self, request):
-        self.object = self.get_object()
-        
-        return self.check_moderator_permissions(request, self.category_instance, self.object.thread)
         
     def get_context_data(self, **kwargs):
         context = super(PostDeleteView, self).get_context_data(**kwargs)
