@@ -45,7 +45,7 @@ class Category(models.Model):
         verbose_name = _("Category")
         verbose_name_plural = _("Categories")
         permissions = (
-            ('moderate', 'Moderate category'),
+            ('moderate_category', 'Moderate category'),
         )
 
 
@@ -112,7 +112,7 @@ class Thread(models.Model):
         verbose_name = _("Thread")
         verbose_name_plural = _("Threads")
         permissions = (
-            ('moderate', 'Moderate thread'),
+            ('moderate_thread', 'Moderate thread'),
         )
 
 

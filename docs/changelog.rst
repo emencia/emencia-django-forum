@@ -3,6 +3,11 @@
 Changelog
 =========
 
+Version 0.8.1 - 2015/02/01
+**************************
+
+* Fix bad name with moderation permissions for Category and Thread models;
+
 Version 0.8.0 - 2015/01/25
 **************************
 
