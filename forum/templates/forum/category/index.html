@@ -1,7 +1,7 @@
 {% extends "forum/base.html" %}
 {% load i18n %}
 
-{% block forum_content %}
+{% block forum_content %}{% spaceless %}
     <div class="clearfix">
         <dl class="sub-nav right">
             <dt class="hide">{% blocktrans %}Actions{% endblocktrans %}:</dt>
@@ -44,12 +44,16 @@
                     </div>
                     {% endif %}
                     
-                    {% if category.get_last_thread %}
-                    <p>
-                        <strong><a href="{% url 'forum:thread-details' category.slug category.get_last_thread.id %}">{{ category.get_last_thread.subject }}</a></strong> -
-                        {% blocktrans with thread_date=category.get_last_thread.modified|date:"d/m/Y à H:i" thread_author=category.get_last_thread.get_last_post.author %}On {{ thread_date }} - By <em>{{ thread_author }}</em>{% endblocktrans %}
-                    </p>
-                    {% endif %}
+                    {% with last_thread=category.get_last_thread %}
+                        {% if last_thread %}
+                            {% with last_thread_post=last_thread.get_last_post %}
+                            <p>
+                                <strong><a href="{{ last_thread_post.get_absolute_url }}">{{ last_thread.subject }}</a></strong> -
+                                {% blocktrans with thread_date=last_thread.modified|date:"d/m/Y à H:i" thread_author=last_thread_post.author %}On {{ thread_date }} - By <em>{{ thread_author }}</em>{% endblocktrans %}
+                            </p>
+                            {% endwith %}
+                        {% endif %}
+                    {% endwith %}
                 </div>
             </div>
         {% empty %}
@@ -61,4 +65,4 @@
 
     {% comment %}{% pagination_tag pagination_url_args %}{% endcomment %}
     {% include 'forum/pagination.html' %}
-{% endblock %}
+{% endspaceless %}{% endblock %}

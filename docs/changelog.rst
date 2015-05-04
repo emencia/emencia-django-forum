@@ -3,6 +3,11 @@
 Changelog
 =========
 
+Version 0.8.3 - 2015/05/04
+**************************
+
+* Changed last thread link on Category index to go to the last thread post;
+
 Version 0.8.2 - 2015/05/04
 **************************
 

@@ -1,16 +1,10 @@
 .. _Django: https://www.djangoproject.com/
-.. _South: http://south.readthedocs.org/en/latest/
-.. _rstview: https://github.com/sveetch/rstview
-.. _autobreadcrumbs: https://github.com/sveetch/autobreadcrumbs
-.. _django-braces: https://github.com/brack3t/django-braces/
-.. _django-crispy-forms: https://github.com/maraujop/django-crispy-forms
-.. _Django-CodeMirror: https://github.com/sveetch/djangocodemirror
 .. _RestructuredText: http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
 
 Emencia Django Forum
 ====================
 
-It is simple and more suited for an internal team use (like a company's extranet) than for big public communities. By the way all the view are restricted at less to authenticated users, there is no access for anonymous.
+It is simple and more suited for an internal team use (like an extranet) than for big public communities. By the way all the view are restricted at less to authenticated users, there is no access for anonymous.
 
 Features
 ********
