@@ -30,7 +30,7 @@ class PostCreateForm(CrispyFormMixin, forms.ModelForm):
             self.fields['text'] = field_helper(self, **{'label':_('message'), 'required':True})
         
         # Add threadwatch checkbox
-        self.fields['threadwatch'] = forms.BooleanField(label=_("Watch this thread"), initial=True, required=False, help_text=_("You will receive an email notification for each new post in this thread. You can disable it in the thread detail if needed."))
+        self.fields['threadwatch'] = forms.BooleanField(label=_("Watch this thread"), initial=settings.FORUM_DEFAULT_THREADWATCH_CHECKBOX, required=False, help_text=_("You will receive an email notification for each new post in this thread. You can disable it in the thread detail if needed."))
 
     def clean_text(self):
         """

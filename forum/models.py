@@ -55,7 +55,7 @@ class Thread(models.Model):
     """
     created = models.DateTimeField(_("created"), editable=False, null=True, blank=True)
     modified = models.DateTimeField(_("modified"), editable=False, null=True, blank=True, help_text=_("This only filled when a message is added."))
-    author = models.ForeignKey(User, verbose_name=_("author"), editable=False, blank=False)
+    author = models.ForeignKey(User, verbose_name=_("author"), blank=False)
     category = models.ForeignKey(Category, verbose_name=_("category"))
     subject = models.CharField(_("subject"), max_length=150)
     closed = models.BooleanField(_("closed"), default=False)
@@ -135,7 +135,7 @@ class Post(models.Model):
     """
     Thread message
     """
-    author = models.ForeignKey(User, verbose_name=_("author"), editable=False, blank=False)
+    author = models.ForeignKey(User, verbose_name=_("author"), blank=False)
     thread = models.ForeignKey(Thread, verbose_name=_("thread"))
     created = models.DateTimeField(_("created"), editable=False, blank=True, null=True)
     modified = models.DateTimeField(_("modified"), editable=False, blank=True, null=True)

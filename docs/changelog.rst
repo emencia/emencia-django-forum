@@ -3,6 +3,13 @@
 Changelog
 =========
 
+Version 0.8.2 - 2015/05/04
+**************************
+
+* Added some css to stylize ``<pre>`` and ``code`` in post messages;
+* Added new setting ``FORUM_DEFAULT_THREADWATCH_CHECKBOX`` for default value for thread watch input in post form;
+* Don't hide object owner in django admin anymore, close #12;
+
 Version 0.8.1 - 2015/02/01
 **************************
 

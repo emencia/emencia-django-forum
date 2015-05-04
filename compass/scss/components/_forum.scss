@@ -5,6 +5,27 @@
  */
 .forum{
     
+    .post{
+        .message{
+            pre{
+                width: 100%;
+                max-width: 100%;
+                overflow:auto;
+                margin-bottom: $paragraph-margin-bottom;
+                padding: .5em 1em;
+                border: 1px solid lighten(scale-color($panel-bg, $lightness: $panel-function-factor), 5%);
+                background-color: lighten($panel-bg, 3%);
+                font-size:.8em;
+                font-family: monospace;
+                text-shadow: none;
+            }
+            code{
+                font-size:.8em;
+                background-color: lighten($panel-bg, 3%);
+            }
+        }
+    }
+    
     .categories-list{
         .category{
             &>.inner{

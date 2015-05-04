@@ -14,6 +14,9 @@ FORUM_THREAD_DETAIL_PAGINATE = 10
 # If True message owner can edit its text, else only admin/moderate
 FORUM_OWNER_MESSAGE_CAN_EDIT = True
 
+# If True threadwatch checkbox is checked in thread create and post create forms
+FORUM_DEFAULT_THREADWATCH_CHECKBOX = False
+
 # Receiver function for signal when a new Post is created
 FORUM_NEW_POST_SIGNAL = 'forum.signals.new_message_posted_receiver'
 
@@ -24,6 +27,8 @@ FORUM_EMAIL_SENDER = None
 # that define parser settings this can lead to overwrite problems . In this 
 # case, just define all parser setting in 'RSTVIEW_PARSER_FILTER_SETTINGS' in 
 # the same settings file.
+# WARNING: This should be removed, it must not be a default settings coming from forum
+#          Add it as a note in markup install doc
 RSTVIEW_PARSER_FILTER_SETTINGS = {
     'forum':{
         'initial_header_level': 5,

@@ -18,7 +18,7 @@ class ThreadCreateForm(CrispyFormMixin, forms.ModelForm):
     crispy_form_helper_kwargs = {}
     
     text = forms.CharField(label=_('Message'), required=True, widget=forms.Textarea(attrs={'cols':'50'}))
-    threadwatch = forms.BooleanField(label=_("Watch this thread"), initial=True, required=False, help_text=_("You will receive an email notification for each new post in this thread. You can disable it in the thread detail if needed."))
+    threadwatch = forms.BooleanField(label=_("Watch this thread"), initial=settings.FORUM_DEFAULT_THREADWATCH_CHECKBOX, required=False, help_text=_("You will receive an email notification for each new post in this thread. You can disable it in the thread detail if needed."))
     
     def __init__(self, *args, **kwargs):
         self.author = kwargs.pop("user", None)
